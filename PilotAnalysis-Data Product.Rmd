@@ -1,0 +1,1315 @@
+---
+title: "The EmVoc framework for empirically evaluating modeling language vocabulary"
+author: "Sotirios Liaskos"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_float: 
+      collapsed: false
+      smooth_scroll: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE, eval = TRUE)
+source("PackageLoad.R")
+```
+
+# Preliminary: Load Libraries and Set Paths
+
+```{r eval=TRUE}
+require("knitr")
+source("Library.R")
+setwd("../Instrument/Generator/")
+source("Preliminary.R")
+setwd("../../Stats")
+#dPath = "../Data/Pilot 1/Clean/"
+dPath = "../Data/Main/Clean/"
+mdPath = "../Instrument/InstrumentData/"
+print(getwd())
+```
+
+
+
+
+# Read data and set dataframes
+
+```{r eval=TRUE}
+
+#read.csv(paste0(mdPath,"key.csv"))
+gmo_data = getData("gmo",dPath,mdPath)
+gme_data = getData("gme",dPath,mdPath)
+
+#PROLIFIC BLOCKLIST
+#paste(c(gmo_data[[4]][[1]] %>% pull(PROLIFIC_PID),gmo_data[[4]][[2]] %>% pull(PROLIFIC_PID)),collapse = ',')
+
+#   E x p e r i m e n t a l  ( g m o )
+# Observational Data
+ds1 = gmo_data[[1]]
+# Self reported Data
+ds2 = gmo_data[[2]]
+# Demographic Data
+dse = gmo_data[[3]]
+
+#   C o n t r o l  ( g m e )
+# Observational Data
+ds1.c = gme_data[[1]]
+# Self reported Data
+ds2.c = gme_data[[2]]
+# Demographic Data
+dse.c = gme_data[[3]]
+
+```
+
+
+# Instrument Statistics
+
+```{r }
+
+
+instru.stats.1 = cbind(
+ds1 %>% filter(auth == psy_option,description == 1) %>% group_by(participant,auth) %>% summarise(occs = n()) %>% 
+  group_by(auth) %>% summarise(n2 =mean(occs)) %>% rename (Concept = auth, " # Elements" = n2) %>%
+  mutate (Concept = factor(Concept, levels = c(lang$gmo$concepts,lang$gmo$relationships))) %>% arrange(Concept)
+,
+ds1 %>% filter(auth == psy_option,description == 2) %>% group_by(participant,auth) %>% summarise(occs = n()) %>% 
+  group_by(auth) %>% summarise(n2 =mean(occs)) %>% rename (Concept = auth, " # Elements" = n2) %>%
+  mutate (Concept = factor(Concept, levels = c(lang$gmo$concepts,lang$gmo$relationships))) %>% arrange(Concept))
+
+
+instru.stats.2 = cbind(
+ds1 %>% filter(auth == psy_option) %>% group_by(participant,auth) %>% summarise(occs = n()) %>% 
+    group_by(auth) %>% summarise(n2 =mean(occs)) %>% rename (Concept = auth, " # Elements" = n2) %>%
+    mutate (Concept = factor(Concept, levels = c(lang$gmo$concepts,lang$gmo$relationships))) %>% arrange(Concept)
+,
+ds1.c %>% filter(auth == psy_option) %>% group_by(participant,auth) %>% summarise(occs = n()) %>% 
+    group_by(auth) %>% summarise(n2 =mean(occs)) %>% rename (Concept = auth, " # Elements" = n2) %>%
+    mutate (Concept = factor(Concept, levels = c(lang$gme$concepts,lang$gme$relationships))) %>% arrange(Concept)
+)
+
+
+kable(instru.stats.1)
+
+xtable(instru.stats.1
+, caption = "Number of elements by case and authoritative designation."
+, label = "tab:pilot.auths.case"
+, digits= 0 
+)
+  
+
+kable(instru.stats.2)
+  
+xtable(instru.stats.2
+, caption = "Number of elements by language and authoritative designation."
+, label = "tab:pilot.auths"
+, digits = 0
+)
+```
+
+# Demographics
+
+
+```{r }
+#
+#
+# * * D E M O G R A P H I C S  * * -------------
+#
+#
+
+sexage = rbind(
+  dse %>% filter(demo_item_name %in% c("Age","Sex")) %>% mutate(Condition = "Goal Models")
+  ,
+  dse.c %>% filter(demo_item_name %in% c("Age","Sex")) %>% mutate(Condition = "Intention Models")
+  ) %>% pivot_wider(id_cols = c(participant,Condition), names_from = demo_item_name,values_from = demo_item_label) %>% 
+  group_by(Condition, Sex) %>% summarise(Age = mean(as.numeric(Age)), Count = n())
+
+kable(sexage)
+
+xtable(sexage
+       , caption = "Participants Counts and Ages by Condition and Sex."
+       , label = "tab:pilot.dems"
+       , digits = 0
+)
+
+# Background  all Science and Tech?
+#dse %>% filter(demo_item_name == "Background") %>% mutate(Condition = "Goal Models")
+#dse.c %>% filter(demo_item_name == "Background") %>% mutate(Condition = "Intention Models")
+
+# All excellent readers and writers of English?
+#dse %>% filter(demo_item_name == "Writing") %>% mutate(Condition = "Goal Models")
+#dse.c %>% filter(demo_item_name == "Writing") %>% mutate(Condition = "Intention Models")
+
+# All native speakers?
+#dse %>% filter(demo_item_name == "Native Speaker") %>% mutate(Condition = "Goal Models")
+#dse.c %>% filter(demo_item_name == "Native Speaker") %>% mutate(Condition = "Intention Models")
+
+
+```
+
+
+# Accuracy {.tabset}
+
+## Preliminary - General Stats
+
+```{r }
+#
+# * A C C U R A C Y ---------------
+#
+# Combine the languages
+df1 = rbind(ds1,ds1.c)
+
+
+
+acc.data = df1 %>% 
+    mutate(authoritative = ifelse((psy_option == auth),1,0),
+           acc = ifelse((response == 1) & (authoritative == 1),1,0),
+           def = ifelse((response == 0) & (authoritative == 1),1,0),
+           exc = ifelse((response == 1) & (authoritative == 0),1,0),
+    ) %>%
+    filter((response != 0) | (authoritative != 0), psy_option != "None")  %>%
+   mutate(Language = ifelse(language == "gme","Intention Models", "Goal Models" )) %>%
+  rename("Concept" = psy_option, "Type" = type) %>%
+  select(participant, Language, Type, Concept, response, authoritative, acc,def,exc)
+ 
+# Per concept results
+(acc.pc = acc.data  %>% 
+    group_by(Language,Type,Concept) %>%
+    summarise(muac = mean(acc),
+              muex = mean(exc),
+              mude = mean(def),
+              ac = sum(acc),
+              ex = sum(exc),
+              def = sum(def),
+              prec = muac/(muac+muex)*100,
+              rec = muac/(muac+mude)*100) %>% ungroup()
+)
+#
+kable(acc.pc)
+
+# Per languge results
+(acc.overall = acc.data  %>% 
+    group_by(Language) %>%
+    summarise(muac = mean(acc),
+              muex = mean(exc),
+              mude = mean(def),
+              ac = sum(acc),
+              ex = sum(exc),
+              def = sum(def),
+              pre = muac/(muac+muex)*100,
+              rec = muac/(muac+mude)*100)
+)
+
+kable(acc.overall %>% select(Language, pre, rec))
+print(xtable(acc.overall %>% select(Language, pre, rec),
+       caption = "Overal accuracy measures (%).",
+       label = "tab:pilot.acc.overal"),include.rownames=FALSE)
+
+```
+
+
+
+
+
+## Hypotheses A.1 and A.7 (qualitative)
+
+```{r}
+   #          #           #      #        ####### 
+  # #        ##          #      # #       #    #  
+ #   #      # #         #      #   #          #   
+#     #       #        #      #     #        #    
+####### ###   #       #       ####### ###   #     
+#     # ###   #      #        #     # ###   #     
+#     # ### #####   #         #     # ###   #     
+
+
+set.seed(123)
+acc.conc = accuracyBoot(acc.data %>% filter(Language == "Goal Models"),
+                        lang$gmo$concepts)
+acc.conc.c = accuracyBoot(acc.data %>% filter(Language == "Intention Models"),
+                        lang$gme$concepts)
+
+
+acc.rels = accuracyBoot(acc.data %>% filter(Language == "Goal Models"),
+                        lang$gmo$relationships)
+acc.rels.c = accuracyBoot(acc.data %>% filter(Language == "Intention Models"),
+                        lang$gme$relationships)
+
+accuracy.conc  = rbind(acc.conc %>% mutate (Language = "Goal Models"),acc.conc.c  %>% mutate (Language = "Intention Models"))
+accuracy.rels  = rbind(acc.rels %>% mutate (Language = "Goal Models"),acc.rels.c  %>% mutate (Language = "Intention Models"))
+
+kable(accuracy.conc %>% select(Language, Concept, Recall, Precision))
+xtable(accuracy.conc %>% select(Language, Concept, Recall, Precision),
+       caption = "Accuracy measures for concepts (\\%). In brackets the 2.5th and 97.5th percentiles of 
+       the bootstrapping distribution created by re-sampling with replacement the authoritative and 
+       response sets 1000 times and recalculating the measures.",
+       label = "tab:pilot.acc.concept"
+)
+
+kable(accuracy.rels %>% select(Language, Concept, Recall, Precision))
+xtable(accuracy.rels %>% select(Language, Concept, Recall,Precision),
+       caption = "Accuracy measures for concepts (\\%). In brackets the 2.5th and 97.5th percentiles of 
+       the bootstrapping distribution created by re-sampling with replacement the authoritative and 
+       response sets 1000 times and recalculating the measures.",
+       label = "tab:pilot.acc.relationship"
+)
+
+
+# Euler Charts ---------------------------
+
+print_Euler <- function(df,concept) {
+  x = as.numeric(df %>% filter(Concept == concept) %>% select(ex,ac,def))
+  names(x) = c("Rater","Auth.&Rater","Auth.")
+  return( plot(euler(x), quantities = TRUE,lty=1:2, main = concept))
+}
+
+grid.arrange(print_Euler(acc.pc,"Actor"),
+             print_Euler(acc.pc %>% filter(Language == "Goal Models"),"Goal"),
+             print_Euler(acc.pc,"Belief"),
+             print_Euler(acc.pc,"Organization"),
+             print_Euler(acc.pc %>% filter(Language == "Intention Models") ,"Goal"),
+             print_Euler(acc.pc,"Objective"),ncol = 3)
+
+
+grid.arrange(print_Euler(acc.pc  %>% filter(Language == "Goal Models"),"wants-to"),
+             print_Euler(acc.pc,"believes-that"),
+             print_Euler(acc.pc %>% filter(Language == "Goal Models"),"is-a-means-to"),
+             print_Euler(acc.pc,"motivates"),
+             print_Euler(acc.pc  %>% filter(Language == "Intention Models"),"wants-to"),
+             print_Euler(acc.pc,"intends-to"),
+             print_Euler(acc.pc  %>% filter(Language == "Intention Models"),"wants-to"),
+             print_Euler(acc.pc,"prevents"),
+             ncol = 4)
+```
+
+## Statistical Tests (A.2)
+
+```{r}
+   #         #####  
+  # #       #     # 
+ #   #            # 
+#     #      #####  
+####### ### #       
+#     # ### #       
+#     # ### #######
+
+
+# General Test -----------------
+
+
+get_acc_pp <- function(data,concepts = NULL) {
+  if (is.null(concepts)) {
+    result = data %>% group_by(Language,participant,Concept) %>% 
+      summarise(acc_pp = sum(acc),
+              def_pp = sum(def),
+              exc_pp = sum(exc),
+              Precision = ifelse(exc_pp == 0, 1, acc_pp/(acc_pp+exc_pp)),
+              Recall    = ifelse(def_pp == 0, 1, acc_pp/(acc_pp+def_pp))
+              )
+  } else {
+    result = data %>% filter(Concept %in% concepts) %>%
+      group_by(Language,participant,Concept) %>% 
+      summarise(acc_pp = sum(acc),
+              def_pp = sum(def),
+              exc_pp = sum(exc),
+              Precision = ifelse(exc_pp == 0, 1, acc_pp/(acc_pp+exc_pp)),
+              Recall    = ifelse(def_pp == 0, 1, acc_pp/(acc_pp+def_pp))
+              )
+  }
+  return(result)
+}
+
+
+acc.pp = get_acc_pp(acc.data)
+
+grid.arrange(ggplot(acc.pp, aes(y = acc_pp, x = Language)) + geom_boxplot(),
+             ggplot(acc.pp, aes(y = Precision, x = Language)) + geom_boxplot(),
+             ggplot(acc.pp, aes(y = Recall, x = Language)) + geom_boxplot())
+
+# Wilcoxon rank-sum test
+wilcox.test(data = acc.pp, Precision ~ Language,exact = FALSE)
+wilcox.test(data = acc.pp, Recall ~ Language,exact = FALSE)
+
+# Double check with bootstrapping
+twoSampleBootpvalue(acc.pp %>% filter(Language == "Goal Models") %>% pull(Precision),
+                    acc.pp %>% filter(Language == "Intention Models") %>% pull(Precision),
+                    "two-sided",
+                    R=999)
+twoSampleBootpvalue(acc.pp %>% filter(Language == "Goal Models") %>% pull(Recall),
+                    acc.pp %>% filter(Language == "Intention Models") %>% pull(Recall),
+                    "two-sided",
+                    R=999)
+```
+
+
+
+## Statistical Tests (A.3)
+
+```{r}
+   #         #####  
+  # #       #     # 
+ #   #            # 
+#     #      #####  
+####### ###       # 
+#     # ### #     # 
+#     # ###  ##### 
+
+# Example individual comparison: Actor vs. Organization -----------------
+acc.pp.a3 = get_acc_pp(acc.data,concepts = c("Actor","Organization"))
+
+grid.arrange(ggplot(acc.pp.a3, aes(y = Recall, x = Language)) + geom_boxplot(),
+             ggplot(acc.pp.a3, aes(y = Precision, x = Language)) + geom_boxplot(),
+             nrow = 3)
+
+# Wilcoxon rank-sum test
+wilcox.test(data = acc.pp.a3, Recall ~ Language,exact = FALSE)
+
+# Alternative: Bootstrapping
+twoSampleBootpvalue(acc.pp.a3 %>% filter(Language == "Goal Models") %>% pull(Recall),
+                    acc.pp.a3 %>% filter(Language == "Intention Models") %>% pull(Recall), 
+                    "two-sided",R=999)
+
+# Deficiency can be seen in the Euler Diagrams.
+
+```
+
+
+## Statistical Tests (A.4)
+
+```{r}
+   #        #       
+  # #       #    #  
+ #   #      #    #  
+#     #     #    #  
+####### ### ####### 
+#     # ###      #  
+#     # ###      #  
+
+# Example individual comparison: Belief vs. Objective -----------------
+acc.pp.a4 = get_acc_pp(acc.data,concepts = c("Belief","Objective"))
+
+grid.arrange(ggplot(acc.pp.a4, aes(y = Recall, x = Language)) + geom_boxplot(),
+             ggplot(acc.pp.a4, aes(y = Precision, x = Language)) + geom_boxplot(),
+             nrow = 2)
+
+# Wilcoxon rank-sum test
+wilcox.test(data = acc.pp.a4, Precision ~ Language,exact = FALSE)
+wilcox.test(data = acc.pp.a4, Recall ~ Language,exact = FALSE)
+
+# Alternative: Bootstrapping
+twoSampleBootpvalue(acc.pp.a4 %>% filter(Language == "Goal Models") %>% pull(Precision),
+                    acc.pp.a4 %>% filter(Language == "Intention Models") %>% pull(Precision),                     "two-sided",R=999)
+twoSampleBootpvalue(acc.pp.a4 %>% filter(Language == "Goal Models") %>% pull(Recall),
+                    acc.pp.a4 %>% filter(Language == "Intention Models") %>% pull(Recall), 
+                    "two-sided",R=999)
+```
+
+
+## Statistical Tests (A.5)
+```{r}
+   #        ####### 
+  # #       #       
+ #   #      #       
+#     #     ######  
+####### ###       # 
+#     # ### #     # 
+#     # ###  ##### 
+
+# Example individual comparison: believes-that vs. intends-to -----------------
+acc.pp.a5 = get_acc_pp(acc.data,concepts = c("believes-that","intends-to"))
+
+grid.arrange(ggplot(acc.pp.a5, aes(y = Recall, x = Language)) + geom_boxplot(),
+             ggplot(acc.pp.a5, aes(y = Precision, x = Language)) + geom_boxplot(),
+             nrow = 2)
+
+# Wilcoxon rank-sum test
+wilcox.test(data = acc.pp.a5, Precision ~ Language,exact = FALSE)
+wilcox.test(data = acc.pp.a5, Recall ~ Language,exact = FALSE)
+
+# Alternative: Bootstrapping
+twoSampleBootpvalue(acc.pp.a5 %>% filter(Language == "Goal Models") %>% pull(Precision),
+                    acc.pp.a5 %>% filter(Language == "Intention Models") %>% pull(Precision),                     "two-sided",R=999)
+twoSampleBootpvalue(acc.pp.a5 %>% filter(Language == "Goal Models") %>% pull(Recall),
+                    acc.pp.a5 %>% filter(Language == "Intention Models") %>% pull(Recall), 
+                    "two-sided",R=999)
+
+```
+
+## Statistical Tests (A.6)
+```{R}
+   #         #####  
+  # #       #     # 
+ #   #      #       
+#     #     ######  
+####### ### #     # 
+#     # ### #     # 
+#     # ###  #####  
+
+
+
+# Example individual comparison: motivates vs. prevents -----------------
+acc.pp.a6 = get_acc_pp(acc.data,concepts = c("believes-that","intends-to"))
+
+grid.arrange(ggplot(acc.pp.a6, aes(y = Recall, x = Language)) + geom_boxplot(),
+             ggplot(acc.pp.a6, aes(y = Precision, x = Language)) + geom_boxplot(),
+             nrow = 2)
+
+# Wilcoxon rank-sum test
+wilcox.test(data = acc.pp.a6, Precision ~ Language,exact = FALSE)
+wilcox.test(data = acc.pp.a6, Recall ~ Language,exact = FALSE)
+
+# Alternative: Bootstrapping
+twoSampleBootpvalue(acc.pp.a6 %>% filter(Language == "Goal Models") %>% pull(Precision),
+                    acc.pp.a6 %>% filter(Language == "Intention Models") %>% pull(Precision),                     "two-sided",R=999)
+twoSampleBootpvalue(acc.pp.a6 %>% filter(Language == "Goal Models") %>% pull(Recall),
+                    acc.pp.a6 %>% filter(Language == "Intention Models") %>% pull(Recall), 
+                    "two-sided",R=999)
+```
+
+
+# Deficit {.tabset}
+
+## Descriptives per item (D.1)
+```{R}
+######        #   
+#     #      ##   
+#     #     # #   
+#     #       #   
+#     # ###   #   
+#     # ###   #   
+######  ### ##### 
+
+
+#
+#  Descriptives per item ---------------
+#
+def.item = 
+  df1 %>% mutate(resp_na = ifelse((psy_option == "None") & (response == 1),1,0)) %>%
+  group_by(language,type,item) %>% summarise (nas = sum(resp_na)) %>% 
+  inner_join(df1 %>% group_by(language,type,item,psy_item) %>% summarise (totals_ = n()) %>%
+               group_by(language,type,item) %>% summarise (totals = max(totals_)),
+             by = c("language"="language","type"="type","item"="item")) %>%
+  mutate(Deficit = nas/totals)
+
+
+# Descriptive per item
+def.tab = def.item %>% group_by(language,type) %>% summarise(max = max(Deficit),
+                            q95 = quantile(Deficit, 0.95),
+                            q90 = quantile(Deficit, 0.90),
+                            q75 = quantile(Deficit, 0.75)) %>% 
+    mutate(Language = ifelse(language == "gmo","Goal Models", "Intention Models"),
+           Type = ifelse(type == "concept","Concepts", "Relationships")) %>%
+    ungroup() %>% select(Language,Type,max,q95,q90,q75) %>% arrange(Language,Type)
+
+# Goal Models: Entities
+def.graph.conc = ggplot(data = def.item %>% filter(language == "gmo", type == "concept"),
+  aes(x = Deficit)) + geom_histogram(bins = 9,boundary = 0) + 
+geom_density(alpha=.2, fill="#66FF66") + xlim(c(0,1)) + ggtitle("Goal Models: Entities")
+#
+
+# Goal Models: Relationships
+def.graph.rel = ggplot(data = def.item %>% filter(language == "gmo", type == "relationship"),
+                       aes(x = Deficit)) + geom_histogram(bins = 9,boundary = 0) + 
+  geom_density(alpha=.2, fill="#66FF66") + xlim(c(0,1)) + ggtitle("Goal Models: Relationships")
+#
+
+# Intention Models: Entities
+def.graph.conc.c = ggplot(data = def.item %>% filter(language == "gme", type == "concept"),
+                       aes(x = Deficit)) + geom_histogram(bins = 9,boundary = 0) + 
+  geom_density(alpha=.2, fill="#FF6666") + xlim(c(0,1)) + ggtitle("Intention Models: Entities")
+#
+
+# Intention Models: Relationships
+def.graph.rel.c = ggplot(data = def.item %>% filter(language == "gme", type == "relationship"),
+                      aes(x = Deficit)) + geom_histogram(bins = 9,boundary = 0) + 
+  geom_density(alpha=.2, fill="#FF6666") + xlim(c(0,1))  + ggtitle("Intention Models: Relationships")
+#
+
+grid.arrange(def.graph.conc,def.graph.rel,def.graph.conc.c,def.graph.rel.c)
+
+
+
+kable(def.tab)
+print(xtable(def.tab,caption = "Deficit measures: maximum observed, and 95th, 90th and 75th quantile.",label = "tab:pilot.def"),
+      include.rownames = F)
+
+
+
+#Drill down
+def.drill = ds1 %>% filter(type == "concept") %>% 
+  filter(psy_option == "None") %>% 
+  group_by(item,item_full) %>%
+  summarise (Incompleteness = mean(response)) %>% arrange(-Incompleteness)
+
+head(def.drill %>% ungroup %>% select(item_full,Incompleteness))
+
+def.drill.c = ds1.c %>% filter(type == "concept") %>% 
+  filter(psy_option == "None") %>% 
+  group_by(item,item_full) %>%
+  summarise (Incompleteness = mean(response)) %>% arrange(-Incompleteness)
+
+head(def.drill.c %>% ungroup %>% select(item_full,Incompleteness))
+```
+
+
+
+## Inferential per participant (D.2)
+
+```{R}
+######       #####  
+#     #     #     # 
+#     #           # 
+#     #      #####  
+#     # ### #       
+#     # ### #       
+######  ### #######
+
+# Inferential per participant --------------------
+def.parti = 
+  df1 %>% mutate(resp_na = ifelse((psy_option == "None") & (response == 1),1,0)) %>%
+  group_by(language,type,participant) %>% summarise (nas = sum(resp_na)) %>% 
+  inner_join(df1 %>% group_by(language,type,participant) %>% summarise (totals = sum(psy_option == "None"))) %>%
+  mutate(Deficit = nas/totals,
+         Language = ifelse(language == "gmo","Goal Models", "Intention Models"),
+         Type = ifelse(type == "concept","Concepts", "Relationships")) %>% ungroup() %>%
+  select(Language, Type, participant, Deficit)
+#
+
+# Visual
+ggplot(def.parti, aes(y = Deficit)) + geom_boxplot() + facet_grid(Type ~ Language)
+
+# Wilcoxon tests
+## Entities
+wilcox.test(data = def.parti %>% filter(Type == "Concepts"), Deficit ~ Language,exact = FALSE)
+
+## Relationships
+wilcox.test(data = def.parti %>% filter(Type == "Relationships"), Deficit ~ Language,exact = FALSE)
+
+
+# Effect size: difference between means
+def.parti.effect = def.parti %>% group_by(Language,Type) %>% summarise(Deficit = mean(Deficit))
+cat("Entities effect size:", round(abs(def.parti.effect %>% 
+      filter(Language == "Goal Models", Type == "Concepts") %>% pull(Deficit) - 
+      def.parti.effect %>% 
+      filter(Language == "Intention Models", Type == "Concepts") %>% pull(Deficit)),3), "\n")
+cat("Relationships effect size:", round(abs(def.parti.effect %>% 
+      filter(Language == "Goal Models", Type == "Relationships") %>% pull(Deficit) - 
+      def.parti.effect %>% 
+      filter(Language == "Intention Models", Type == "Relationships") %>% pull(Deficit)),3), "\n")
+#
+
+```
+
+## Relationship to self-reported (S.1)
+```{r }
+ #####        #   
+#     #      ##   
+#           # #   
+ #####        #   
+      # ###   #   
+#     # ###   #   
+ #####  ### ##### 
+
+
+# Comparison with Self-Reported ----------------------------
+self.conc.compl = ds2 %>% filter(psy_item == "conceptCompleteness:1") %>% 
+  inner_join(def.parti %>% filter(Type == "Concepts")) %>% select(participant,value,Deficit)
+self.rels.compl = ds2 %>% filter(psy_item == "relationshipCompleteness:1") %>% 
+  inner_join(def.parti %>% filter(Type == "Relationships")) %>% select(participant,value,Deficit)
+
+
+self.conc.compl.c = ds2.c %>% filter(psy_item == "conceptCompleteness:1") %>% 
+  inner_join(def.parti %>% filter(Type == "Concepts")) %>% select(participant, value,Deficit)
+self.rels.compl.c = ds2.c %>% filter(psy_item == "relationshipCompleteness:1") %>% 
+  inner_join(def.parti %>% filter(Type == "Relationships")) %>% select(participant,value,Deficit)
+
+
+
+grid.arrange(
+    ggplot(self.conc.compl[-c(4),],aes(x=value, y = Deficit)) + 
+      geom_point() + geom_smooth(method='lm', formula= y~x) +
+      xlab("Reported Completeness") + ylab("Observed Deficit") + ggtitle("Goal Models: Entities")
+    ,
+    ggplot(self.rels.compl[-c(4),],aes(x=value, y = Deficit)) + 
+      geom_point() + geom_smooth(method='lm', formula= y~x) +
+      xlab("Reported Completeness") + ylab("Observed Deficit") + ggtitle("Goal Models: Relationships")
+    ,
+    ggplot(self.conc.compl.c[-c(1,5),],aes(x=value, y = Deficit)) + 
+      geom_point() + geom_smooth(method='lm', formula= y~x) +
+      xlab("Reported Completeness") + ylab("Observed Deficit") + ggtitle("Intention Models: Entities")
+    ,
+    ggplot(self.rels.compl.c[-c(1,5),],aes(x=value, y = Deficit)) + 
+      geom_point() + geom_smooth(method='lm', formula= y~x) +
+      xlab("Reported Completeness") + ylab("Observed Deficit") + ggtitle("Intention Models: Relationships")
+    ,
+    ncol = 2)
+
+
+cor.test(self.conc.compl.c[-c(1,5),"value"]$value,
+         self.conc.compl.c[-c(1,5),"Deficit"]$Deficit,
+         method = "kendall",exact = FALSE)
+
+cor.test(self.rels.compl.c[-c(1,5),"value"]$value,
+         self.rels.compl.c[-c(1,5),"Deficit"]$Deficit,
+         method = "kendall",exact = FALSE)
+
+cor.test(self.conc.compl[-c(4),"value"]$value,
+         self.conc.compl[-c(4),"Deficit"]$Deficit,
+         method = "kendall",exact = FALSE)
+
+cor.test(self.rels.compl[-c(4),"value"]$value,
+         self.rels.compl[-c(4),"Deficit"]$Deficit,
+         method = "kendall",exact = FALSE)
+
+``` 
+
+
+
+
+
+# Excess {.tabset}
+
+## Hypothesis E.1.
+
+```{r }
+#######       #         #   
+#            ##        ##   
+#           # #       # #   
+#####         #         #   
+#       ###   #   ###   #   
+#       ###   #   ###   #   
+####### ### ##### ### ##### 
+
+# gmo -------------------------
+
+# Descriptive
+# gmo -------------------------
+parts = length(unique(ds1 %>% pull(participant)))
+exc.list = ds1 %>% filter(psy_option != "None") %>% 
+  select(participant, item, response, psy_option) %>%
+  group_by(item,psy_option) %>% 
+  summarise(score = sum(response)) %>%  ungroup() %>%
+  group_by(psy_option) %>% 
+  summarise(max_r = max(score)) %>%
+  mutate (exc = 1 - max_r/parts) %>% select(psy_option, exc) %>% arrange(-exc)
+
+# gme -------------------------
+parts.c = length(unique(ds1.c %>% pull(participant)))
+exc.list.c = ds1.c %>% filter(psy_option != "None") %>% 
+  select(participant, item, response, psy_option) %>%
+  group_by(item,psy_option) %>% 
+  summarise(score = sum(response)) %>%  ungroup() %>%
+  group_by(psy_option) %>% 
+  summarise(max_r = max(score)) %>%
+  mutate (exc = 1 - max_r/parts.c) %>% select(psy_option, exc) %>% arrange(-exc)
+
+# Diagnosing
+# ds1.c %>% filter(psy_option != "None") %>% 
+#   select(participant, item, response, psy_option) %>%
+#   group_by(participant,psy_option) %>% 
+#   summarise(score = sum(response)) %>% 
+#   filter(psy_option %in% c("Goal","Objective","wants-to","indends-to")) %>% arrange(score)
+
+
+#######       #        #####  
+#            ##       #     # 
+#           # #             # 
+#####         #        #####  
+#       ###   #   ### #       
+#       ###   #   ### #       
+####### ### ##### ### ####### 
+
+
+# Inferential per participant --------------
+exc.comb <- df1 %>% filter(psy_option != "None") %>% 
+  group_by(language,participant,psy_option) %>% 
+  summarise(prevalence = sum(response)/n()) %>%
+  mutate(Language = ifelse(language == "gmo","Goal Models","Intention Models"),
+         Concept = factor(psy_option,
+                          levels = c("Actor","Organization","Goal",
+                                     "Belief","Objective",
+                                     "wants-to","intends-to","believes-that",
+                                     "prevents","motivates","is-a-means-to")))
+
+
+ggplot(exc.comb,aes(x = Concept, y = prevalence, fill = Language)) + geom_boxplot() + 
+  facet_wrap(~Language, scales="free_x")
+
+wilcox.test(data = exc.comb %>% select(participant,Language,prevalence) %>% 
+group_by(participant,Language) %>% 
+              summarise(prevalence = mean(prevalence)),
+            prevalence ~ Language,exact = FALSE)
+```
+
+## Hypotheses E.2 - E.4
+
+```{r }
+#######      #####              #######     #       
+#           #     #             #           #    #  
+#                 #             #           #    #  
+#####        #####     #####    #####       #    #  
+#       ### #                   #       ### ####### 
+#       ### #                   #       ###      #  
+####### ### #######             ####### ###      #  
+exs.wilx = c(wilcox.test(data = exc.comb %>% filter(psy_option %in% c("Actor","Organization")) %>%
+                           select(psy_option,prevalence),prevalence ~ psy_option,exact = FALSE)$p.value,
+             wilcox.test(data = exc.comb %>% filter(psy_option %in% c("Belief","Objective")) %>% 
+                           select(psy_option,prevalence), prevalence ~ psy_option,exact = FALSE)$p.value,
+             wilcox.test(data = exc.comb %>% filter(psy_option %in% c("Goal")) %>% 
+                           select(psy_option,Language,prevalence), prevalence ~ Language,exact = FALSE)$p.value,
+             wilcox.test(data = exc.comb %>% filter(psy_option %in% c("wants-to")) %>% 
+                           select(psy_option,Language,prevalence),prevalence ~ Language,exact = FALSE)$p.value,
+             wilcox.test(data = exc.comb %>% filter(psy_option %in% c("believes-that","intends-to")) %>% 
+                           select(psy_option,prevalence),prevalence ~ psy_option,exact = FALSE)$p.value,
+             wilcox.test(data = exc.comb %>% filter(psy_option %in% c("motivates","prevents")) %>% 
+                           select(psy_option,prevalence),prevalence ~ psy_option,exact = FALSE)$p.value,
+             wilcox.test(data = exc.comb %>% filter(psy_option %in% c("is-a-means-to")) %>%
+                           select(psy_option,Language,prevalence),prevalence ~ Language,exact = FALSE)$p.value)
+exs.wilx = ifelse(exs.wilx <= 0.007, paste0(round(exs.wilx,3),"*"),round(exs.wilx,3))
+#
+
+#exc.list$order = c(1,3,5,2,7,6,4)
+#exc.list$order = c(2,3,5,7,4,1,6)
+exc.list$order = c(6 , 1, 2, 5, 3, 7, 4)
+exc.list.c$order = c( 6, 3, 5, 1, 4, 2, 7)
+#exc.list.c$order = c(6,2,3,4,5,7,1)
+
+
+exc.pc = cbind(exc.list %>% rename("Concepts1" = psy_option, "Excess1"= exc) %>% 
+               arrange(order) %>% select(-order),
+             exc.list.c %>% rename("Concepts2" = psy_option, "Excess2"= exc)%>% 
+               arrange(order) %>% select(-order),
+             pval = exs.wilx)
+
+kable(exc.pc)
+
+xtable(exc.pc,
+       caption = "Excess per concept.",
+       label = "pilot:exc.list",
+       digits = 3
+)
+
+# Confidence intervals 
+result = tribble(~Concept, ~Lower, ~Mean, ~Upper)
+for (concept in setdiff(unique(c(ds1$psy_option,ds1.c$psy_option)),c("None"))) {
+  re = bootstrap.ci(exc.comb %>% filter(psy_option == concept) %>% pull(prevalence), 
+                    conf.level=0.95, R=999)
+  result = result %>% add_row(Concept = concept, 
+                              Lower = re[1], Mean = re[2], Upper = re[3])
+}
+result = result %>% mutate(Concept = factor(Concept,
+                        levels = c("Actor","Organization","Goal",
+                                   "Belief","Objective",
+                                   "wants-to","intends-to","believes-that",
+                                   "prevents","motivates","is-a-means-to")))
+
+ggplot(result, aes(x=Mean, y=Concept)) + 
+  geom_errorbar(aes(xmin=Lower, xmax=Upper),width = .1) +
+  geom_point() + scale_y_discrete(limits=rev)
+
+```
+
+## Relationship to self-reported (S.2)
+
+```{r }
+ #####       #####  
+#     #     #     # 
+#                 # 
+ #####       #####  
+      # ### #       
+#     # ### #       
+ #####  ### #######
+
+
+## Comparison with Self-Reported (all data) -----------
+excessCorr = ds2 %>% filter(psy_item %in% c(paste0("conceptRelevance:",c(1,2,3)),paste0("relationshipRelevance:",c(1,2,3,4)))) %>% 
+  inner_join(exc.comb, by = c("participant" = "participant", "concept" = "psy_option", "language" = "language"))
+
+excessCorr.c = ds2.c %>% filter(psy_item %in% c(paste0("conceptRelevance:",c(1,2,3)),paste0("relationshipRelevance:",c(1,2,3,4)))) %>% 
+  inner_join(exc.comb, by = c("participant" = "participant", "concept" = "psy_option", "language" = "language"))
+
+ggplot(excessCorr ,aes(x=value, y = prevalence)) + 
+  geom_point() + geom_smooth(method='lm', formula= y~x)
+cor.test(excessCorr %>%  pull(value),excessCorr %>% pull(prevalence))
+
+ggplot(excessCorr.c ,aes(x=value, y = prevalence)) + geom_point() + 
+  geom_smooth(method='lm', formula= y~x) + xlab("")
+cor.test(excessCorr.c %>%  pull(value),excessCorr.c %>% pull(prevalence))
+
+
+
+## Comparison with Self-Reported (per concept) -----------
+self.exc = tribble(~Concept,~Type,~Language,~Correlation,~pval)
+
+for (c in lang$gmo$concepts){
+  x = cor.test(excessCorr %>% filter(concept==c) %>% pull(value),
+               excessCorr %>% filter(concept==c) %>% pull(prevalence),method = "kendall",exact = FALSE)
+  self.exc = self.exc %>% add_row(Concept = c, Type = "Concept",Language = "Goal Models", 
+                                  Correlation = x$estimate,pval = x$p.value)
+}
+for (c in lang$gmo$relationships){
+  x = cor.test(excessCorr %>% filter(concept==c) %>% pull(value),
+               excessCorr %>% filter(concept==c) %>% pull(prevalence),method = "kendall",exact = FALSE)
+  self.exc = self.exc %>% add_row(Concept = c, Type = "Relationship",Language = "Goal Models", 
+                                  Correlation = x$estimate,pval = x$p.value)
+}
+for (c in lang$gme$concepts){
+  x = cor.test(excessCorr.c %>% filter(concept==c) %>% pull(value),
+               excessCorr.c %>% filter(concept==c) %>% pull(prevalence),method = "kendall",exact = FALSE)
+  self.exc = self.exc %>% add_row(Concept = c, Type = "Concept",Language = "Intention Models", 
+                                  Correlation = x$estimate,pval = x$p.value)
+}
+for (c in lang$gme$relationships){
+  x = cor.test(excessCorr.c %>% filter(concept==c) %>% pull(value),
+               excessCorr.c %>% filter(concept==c) %>% pull(prevalence),method = "kendall",exact = FALSE)
+  self.exc = self.exc %>% add_row(Concept = c, Type = "Relationship",Language = "Intention Models", 
+                                  Correlation = x$estimate,pval = x$p.value)
+}
+
+
+exc.pc.cors = cbind(self.exc %>% filter(Language == "Intention Models") %>% select(Concept,Correlation,pval),
+      self.exc %>% filter(Language == "Goal Models") %>% select(Concept,Correlation,pval))
+
+kable(exc.pc.cors)
+xtable(exc.pc.cors,
+      caption = "Correlations (Kendall tau) between self-reported measures of relevance and observed measures of excess.",
+      label = "fig:pilot.exc"
+)
+```
+
+# Redundancy {.tabset}
+
+## Qualitative Analysis (O.1, O.3)
+
+```{r }
+#######       #            #    #######      #####  
+#     #      ##           #     #     #     #     # 
+#     #     # #          #      #     #           # 
+#     #       #         #       #     #      #####  
+#     # ###   #        #        #     # ###       # 
+#     # ###   #       #         #     # ### #     # 
+####### ### #####    #          ####### ###  #####
+
+# Redundancy ----------------
+# gmo ------
+ds1_ratings = ds1 %>% group_by(item,psy_option,type) %>%
+  summarise(n = sum(response)) %>% 
+  rename("concept" = psy_option) %>%
+  left_join(ds1 %>% group_by(item) %>% summarise(n_s = sum(response)))
+
+
+OVI.conc = overlaps.per.item(ds1_ratings %>% filter(type == "concept"),
+                             lang[["gmo"]][["concepts"]],threshold = 0.1)
+OVI.rel = overlaps.per.item(ds1_ratings %>% filter(type == "relationship"),
+                            lang[["gmo"]][["relationships"]],threshold = 0.1)
+
+# gme ------
+ds1c_ratings = ds1.c %>% group_by(item,psy_option,type) %>% 
+  summarise(n = sum(response)) %>% 
+  rename("concept" = psy_option) %>%
+  left_join(ds1.c %>% group_by(item) %>% summarise(n_s = sum(response))) 
+
+
+OVI.conc.c = overlaps.per.item(ds1c_ratings %>% filter(type == "concept"),
+                             lang[["gme"]][["concepts"]],threshold = 0.1)
+OVI.rel.c = overlaps.per.item(ds1c_ratings %>% filter(type == "relationship"),
+                            lang[["gme"]][["relationships"]],threshold = 0.1)
+
+
+red.tab = rbind(
+OVI.conc.c$stats %>% select(Concept1,Concept2,median,q25,q10,min),
+OVI.rel.c$stats %>% select(Concept1,Concept2,median,q25,q10,min) 
+)
+
+kable(red.tab)
+
+xtable(red.tab,
+       caption = "Redundancy indexes for Intention Models (for goal models all values are zero)", label = "fig:pilot.red")
+
+
+# Drill-in histograms (unused) --------------
+ovi.drillInHisto <- function(df,color){
+  ggplot(df,aes(x = overlap)) + 
+    geom_histogram(bins = 10, boundary = 0, aes(y = stat(count) / sum(count))) + 
+    geom_density(alpha=.2, fill=color) + xlim(c(0,1)) + ylab("Frequency")
+}
+
+ovi.goalObjectiveOvlp = OVI.conc.c$data %>% filter(Concept1 == "Goal",Concept2 == "Objective") %>% select(overlap)
+ovi.wantstoIntendsToOvlp = OVI.rel.c$data %>% filter(Concept1 == "wants-to",Concept2 == "intends-to") %>% select(overlap)
+ovi.goalBeliefOvlp = OVI.conc$data %>% filter(Concept1 == "Goal",Concept2 == "Belief") %>% select(overlap)
+ovi.wantstoBelievesthatOvlp = OVI.rel$data %>% filter(Concept1 == "wants-to",Concept2 == "believes-that") %>% select(overlap)
+
+grid.arrange(
+  ovi.drillInHisto(ovi.goalObjectiveOvlp,"#66FF66") + ggtitle("Goal vs. Objective"),
+  ovi.drillInHisto(ovi.wantstoIntendsToOvlp,"#66FF66") + ggtitle("wants-to vs. intends-to"),
+  ovi.drillInHisto(ovi.goalBeliefOvlp,"#FF6666") + ggtitle("Goal vs. Belief"),
+  ovi.drillInHisto(ovi.wantstoBelievesthatOvlp,"#FF6666") + ggtitle("wants-to vs. believes-that")
+)
+
+# Tiles -------------
+
+blackOvTile <- function(df,title = ""){
+  return(ggplot(df, aes(x = Concept1,y = Concept2,fill = Obs)) +
+    geom_tile() +scale_fill_gradient2(low="white", high="black",limits = c(0,1)) +
+    geom_label(aes(x = Concept1,y = Concept2,label = round(Obs,2)),alpha = 0.5, fill = "white", color="black", size=rel(4)) +
+    scale_x_discrete(position = "top") + 
+    xlab("Concept 2") + ylab("Concept 1") +
+    scale_y_discrete(limits = rev(levels(factor(df$Concept2)))) +
+    labs(fill = "Overlap") +
+    ggtitle(title))
+}
+blueOvTile <- function(df,title = ""){
+  return(ggplot(df, aes(x = Concept1,y = Concept2,fill = Obs)) +
+    geom_tile(colour="gray90", size=1.5, stat="identity") + 
+    geom_text(aes(x = Concept1,y = Concept2, label = round(Obs,4)), color="black", size=rel(4.5)) +
+    scale_fill_gradient(low = "white", high = "dodgerblue", space = "Lab", 
+                        na.value = "gray90", guide = "colourbar",limits = c(0,1)) +
+    scale_x_discrete(expand = c(0, 0),position = "top") +
+    scale_y_discrete(expand = c(0, 0),limits = rev(levels(factor(df$Concept2)))) +
+    xlab("Concept 2") + ylab("Concept 1") +
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_rect(fill=NA,color="gray90", size=0.5, linetype="solid"),
+          axis.line = element_blank(),
+          axis.ticks = element_blank(),
+          panel.background = element_rect(fill="gray90"),
+          plot.background = element_rect(fill="gray90"),
+          legend.position = "none",         
+          axis.text = element_text(color="black", size=11),
+          axis.title=element_text(size=12,face="bold")
+    ) + ggtitle(title))
+}
+
+
+ovi.tile.conc = rbind(OVI.conc$stats,
+      OVI.conc$stats %>% rename(Concept1 = Concept2, Concept2 = Concept1)) %>% 
+      mutate(Concept1 = factor(Concept1,levels = lang$gmo$concepts),
+             Concept2 = factor(Concept2,levels = lang$gmo$concepts))
+ovi.tile.rel = rbind(OVI.rel$stats,
+                      OVI.rel$stats %>% rename(Concept1 = Concept2, Concept2 = Concept1)) %>% 
+      mutate(Concept1 = factor(Concept1,levels = lang$gmo$relationships),
+             Concept2 = factor(Concept2,levels = lang$gmo$relationships))
+ovi.tile.conc.c = rbind(OVI.conc.c$stats,
+                      OVI.conc.c$stats %>% rename(Concept1 = Concept2, Concept2 = Concept1)) %>% 
+      mutate(Concept1 = factor(Concept1,levels = lang$gme$concepts),
+             Concept2 = factor(Concept2,levels = lang$gme$concepts))
+ovi.tile.rel.c = rbind(OVI.rel.c$stats,
+                     OVI.rel.c$stats %>% rename(Concept1 = Concept2, Concept2 = Concept1)) %>%
+      mutate(Concept1 = factor(Concept1,levels = lang$gme$relationships),
+             Concept2 = factor(Concept2,levels = lang$gme$relationships))
+
+
+ovi.tile.obs = grid.arrange(
+  blackOvTile(ovi.tile.conc,"Goal Models, Entities"),
+  blackOvTile(ovi.tile.rel,"Goal Models, Relationships"),
+  blackOvTile(ovi.tile.conc.c,"Intention Models, Entities"),
+  blackOvTile(ovi.tile.rel.c,"Intention Models, Relationships")
+) + theme(plot.margin = unit(c(1,1,1,1),"cm"))
+
+
+
+#
+# Figures for 2-column paper
+#
+
+ovi.tile.obs1 = grid.arrange(
+  blackOvTile(ovi.tile.conc,"Goal Models, Entities"),
+  blackOvTile(ovi.tile.conc.c,"Intention Models, Entities")
+) + theme(plot.margin = unit(c(1,1,1,1),"cm"))
+
+
+ovi.tile.obs2 = grid.arrange(
+  blackOvTile(ovi.tile.rel,"Goal Models, Relationships"),
+  blackOvTile(ovi.tile.rel.c,"Intention Models, Relationships")
+) + theme(plot.margin = unit(c(1,1,1,1),"cm"))
+
+
+grid.arrange(
+  blueOvTile(ovi.tile.conc),
+  blueOvTile(ovi.tile.rel),
+  blueOvTile(ovi.tile.conc.c),
+  blueOvTile(ovi.tile.rel.c)
+)
+
+
+```
+
+
+
+
+## Relationship to self-reported (S.3)
+
+```{r }
+ #####       #####  
+#     #     #     # 
+#                 # 
+ #####       #####  
+      # ###       # 
+#     # ### #     # 
+ #####  ###  #####  
+
+# Correlation with self-reported ----------------------------------------------------
+
+
+
+#
+#
+# ***  S C A T T E R   P L O T S  ***
+#
+#
+
+# gmo - Entities
+ovp.ratings.conc = 
+  rbind(
+    OVI.conc$stats %>% ungroup() %>% 
+      mutate(Pair = paste(Concept1, Concept2, sep = "-"), Overlap = Obs, Group = "Observed") %>% 
+      select(Pair, Overlap, Group)
+    ,
+    ds2 %>% filter(concept %in% c("Actor-Belief","Goal-Belief","Actor-Goal")) %>% 
+      select(concept,value) %>% 
+      rename("Pair" = concept) %>% 
+      group_by(Pair) %>% summarise(Overlap = mean(value)/10) %>%
+      mutate(Group = "Reported")
+  )
+
+(self.ovi.conc = ggplot(ovp.ratings.conc %>% pivot_wider(names_from = Group,values_from = Overlap),
+       aes(x=Observed, y=Reported, label=Pair)) +
+  geom_label() + geom_smooth(method='lm', formula= y~x,se=FALSE) +
+  theme_light() + 
+  xlim(c(0.00,0.3)) + ylim(c(0.00,0.4)) + 
+  #xlim(c(-0.02,1)) + ylim(c(0,1)) +
+  ylab("Reported Overlap (0.0-1.0)") + 
+  xlab("Observed Overlap per Pair (OpP) (0.0-1.0)") +
+  ggtitle("Goal Models: Entities"))
+#
+
+
+# gmo - Relationships
+ovp.ratings.rels = 
+  rbind(
+    OVI.rel$stats %>% ungroup() %>% 
+      mutate(Pair = paste(Concept1, Concept2, sep = "-"), Overlap = Obs, Group = "Observed") %>%
+      select(Pair, Overlap, Group)
+  ,
+    ds2 %>% filter(concept %in% 
+                     c("wants-to-believes-that",
+                       "wants-to-is-a-means-to",
+                       "wants-to-motivates",
+                       "believes-that-is-a-means-to",
+                       "believes-that-motivates",
+                       "motivates-is-a-means-to"
+                     ),
+    ) %>% 
+      select(concept,value) %>% 
+      rename("Pair" = concept) %>% 
+      group_by(Pair) %>% summarise(Overlap = mean(value)/10) %>%
+      mutate(Group = "Reported")
+  )
+  
+(self.ovi.rels = ggplot(ovp.ratings.rels %>% pivot_wider(names_from = Group,values_from = Overlap),
+       aes(x=Observed, y=Reported, label=Pair)) +
+  geom_label() + geom_smooth(method='lm', formula= y~x,se=FALSE) +
+  #xlim(c(-0.02,0.075)) + ylim(c(0,0.9)) + 
+  xlim(c(0.03,0.32)) + 
+  theme_light()+ 
+  ylab("Reported Overlap (0.0-1.0)") + 
+  xlab("Observed per Pair (OpP) (0.0-1.0)") +
+  ggtitle("Goal Models: Relationships"))
+#
+
+
+
+# gme - Entities
+ovp.ratings.conc.c = 
+  rbind(
+    OVI.conc.c$stats %>% ungroup() %>% 
+      mutate(Pair = paste(Concept1, Concept2, sep = "-"), Overlap = Obs, Group = "Observed", Ovi.sd = 0) %>%
+      select(Pair, Overlap, Group, Ovi.sd)
+  ,
+    ds2.c %>% filter(concept %in% c("Organization-Objective","Goal-Objective","Organization-Goal")) %>% 
+      select(concept,value) %>% 
+      rename("Pair" = concept) %>% 
+      group_by(Pair) %>% summarise(Overlap = mean(value)/10,Ovi.sd = sd(value/10)) %>%
+      mutate(Group = "Reported")
+  )
+
+(self.ovi.conc.c = ggplot(ovp.ratings.conc.c %>% select(-Ovi.sd) %>% pivot_wider(names_from = Group,values_from = Overlap),
+       aes(x=Observed, y=Reported, label=Pair)) +
+  geom_label() + geom_smooth(method='lm', formula= y~x,se=FALSE) +
+  #xlim(c(-0.02,0.075)) + ylim(c(0,0.9)) +
+  xlim(c(-0.1,0.65)) + ylim(c(0.1,0.8)) + 
+  theme_light()+ 
+  ylab("Reported Overlap (0.0-1.0)") + 
+  xlab("Observed per Pair (OpP) (0.0-1.0)") +
+  ggtitle("Intention Models: Entities"))
+#
+
+
+# gme - Relationships
+ovp.ratings.rels.c = 
+  rbind(
+    OVI.rel.c$stats %>% ungroup() %>% 
+      mutate(Pair = paste(Concept1, Concept2, sep = "-"), Overlap = Obs, Group = "Observed") %>%
+      select(Pair, Overlap, Group)
+  ,
+    ds2.c %>% filter(concept %in% 
+                     c("wants-to-intends-to",
+                       "wants-to-is-a-means-to",
+                       "wants-to-prevents",
+                       "intends-to-prevents",
+                       "intends-to-is-a-means-to",
+                       "intends-to-prevents",
+                       "prevents-is-a-means-to")
+    ) %>% 
+    select(concept,value) %>% 
+    rename("Pair" = concept) %>% 
+    group_by(Pair) %>% summarise(Overlap = mean(value)/10) %>%
+    mutate(Group = "Reported")
+  )
+#
+
+
+(self.ovi.rels.c = ggplot(ovp.ratings.rels.c %>% pivot_wider(names_from = Group,values_from = Overlap),
+       aes(x=Observed, y=Reported, label=Pair)) +
+  geom_label() + geom_smooth(method='lm', formula= y~x,se=FALSE) +
+  #xlim(c(-0.02,0.075)) + ylim(c(0,0.9)) + 
+  xlim(c(-0.05,0.5)) + ylim(c(0,0.75)) + 
+  theme_light()+ 
+  ylab("Reported Overlap (0.0-1.0)") + 
+  xlab("Observed per Pair (OpP) (0.0-1.0)") +
+  ggtitle("Intention Models: Relationships"))
+
+
+grid.arrange(self.ovi.conc,
+             self.ovi.rels,
+             self.ovi.conc.c,
+             self.ovi.rels.c,nrow=2)
+
+
+
+
+#
+#
+# *** T I L E S ***
+#
+#
+
+self.tile.conc = ds2 %>% 
+  filter(psy_item %in% paste0("conceptOverlap:",1:3)) %>%
+  select(concept,value) %>% 
+  rename("Pair" = concept) %>% 
+  group_by(Pair) %>% summarise(Overlap = mean(value)/10) %>% separate(Pair , c("Concept1","Concept2"),"-")
+self.tile.conc = rbind(self.tile.conc, self.tile.conc %>% rename("Concept1" = Concept2, "Concept2" = Concept1)) %>% rename("Obs" = Overlap) %>% 
+  mutate(Concept1 = factor(Concept1,levels = lang$gmo$concepts),
+         Concept2 = factor(Concept2,levels = lang$gmo$concepts))
+
+
+self.tile.conc.c = ds2.c %>% 
+  filter(psy_item %in% paste0("conceptOverlap:",1:3)) %>%
+  select(concept,value) %>% 
+  rename("Pair" = concept) %>% 
+  group_by(Pair) %>% summarise(Overlap = mean(value)/10) %>% separate(Pair , c("Concept1","Concept2"),"-")
+self.tile.conc.c = rbind(self.tile.conc.c, self.tile.conc.c %>% rename("Concept1" = Concept2, "Concept2" = Concept1)) %>% rename("Obs" = Overlap) %>%
+  mutate(Concept1 = factor(Concept1,levels = lang$gme$concepts),
+         Concept2 = factor(Concept2,levels = lang$gme$concepts))
+
+
+c1 = c(rep("believes-that",2),"motivates",rep("wants-to",3))
+c2 = c("is-a-means-to","motivates","is-a-means-to","believes-that","is-a-means-to","motivates")
+
+self.tile.rels = ds2 %>% 
+  filter(psy_item %in% paste0("conceptOverlap:",4:9)) %>%
+  select(concept,value) %>% 
+  rename("Pair" = concept) %>% 
+  group_by(Pair) %>% summarise(Overlap = mean(value)/10) %>% mutate(Concept1 = c1,Concept2 = c2)
+self.tile.rels = rbind(self.tile.rels, self.tile.rels %>% rename("Concept1" = Concept2, "Concept2" = Concept1)) %>% rename("Obs" = Overlap)%>%
+  mutate(Concept1 = factor(Concept1,levels = lang$gmo$relationships),
+         Concept2 = factor(Concept2,levels = lang$gmo$relationships))
+
+
+c1 = c(rep("intends-to",2),"prevents",rep("wants-to",3))
+c2 = c("is-a-means-to","prevents","is-a-means-to","intends-to","is-a-means-to","prevents")
+self.tile.rels.c = ds2.c %>% 
+  filter(psy_item %in% paste0("conceptOverlap:",4:9)) %>%
+  select(concept,value) %>% 
+  rename("Pair" = concept) %>% 
+  group_by(Pair) %>% summarise(Overlap = mean(value)/10) %>% mutate(Concept1 = c1,Concept2 = c2)
+self.tile.rels.c = rbind(self.tile.rels.c, self.tile.rels.c %>% rename("Concept1" = Concept2, "Concept2" = Concept1)) %>% rename("Obs" = Overlap)%>%
+  mutate(Concept1 = factor(Concept1,levels = lang$gme$relationships),
+         Concept2 = factor(Concept2,levels = lang$gme$relationships))
+
+
+ovi.tile.obs = grid.arrange(
+  blackOvTile(ovi.tile.conc,"Goal Models, Entities"),
+  blackOvTile(ovi.tile.rel,"Goal Models, Relationships"),
+  blackOvTile(ovi.tile.conc.c,"Intention Models, Entities"),
+  blackOvTile(ovi.tile.rel.c,"Intention Models, Relationships")
+)
+
+self.ovi.tile = grid.arrange(
+  blackOvTile(self.tile.conc,"Goal Models, Entities (self-reported)"),
+  blackOvTile(self.tile.rels,"Goal Models, Relationships (self-reported)"),
+  blackOvTile(self.tile.conc.c,"Intention Models, Entities (self-reported)"),
+  blackOvTile(self.tile.rels.c,"Intention Models, Relationships (self-reported)")
+) 
+
+grid.arrange(ovi.tile.obs,self.ovi.tile,ncol = 1)
+```
+
+
+
+
+## Hypothesis O.2
+
+
+```{r eval = FALSE}
+ #####       #####  
+#     #     #     # 
+#     #           # 
+#     #      #####  
+#     # ### #       
+#     # ### #       
+ #####  ### ####### 
+
+
+# Inferential Per Participant ------------------------
+#
+#' Inferential per participant is not possible due to their avoidance of multiple selections
+#' To be resolved in the future rounds.
+#'
+ov_ratings_parti = ds1 %>% group_by(participant,item,psy_option,type) %>% 
+  summarise(n = sum(response)) %>% 
+  rename("concept" = psy_option) %>%
+  left_join(ds1 %>% group_by(participant,item) %>% summarise(n_s = sum(response))) 
+
+ov_ratings_parti.c = ds1.c %>% group_by(participant,item,psy_option,type) %>% 
+  summarise(n = sum(response)) %>% 
+  rename("concept" = psy_option) %>%
+  left_join(ds1.c %>% group_by(participant,item) %>% summarise(n_s = sum(response))) 
+
+
+
+OVP.conc = overlaps.per.participant(ov_ratings_parti %>% filter(type == "concept"),lang[["gmo"]][["concepts"]])
+OVP.conc.c = overlaps.per.participant(ov_ratings_parti.c %>% filter(type == "concept"),lang[["gme"]][["concepts"]])
+OVP.rel = overlaps.per.participant(ov_ratings_parti %>% filter(type == "relationship"),lang[["gmo"]][["relationships"]])
+OVP.rel.c = overlaps.per.participant(ov_ratings_parti.c %>% filter(type == "relationship"),lang[["gme"]][["relationships"]])
+
+
+# Statistical Tests
+twoSampleBootpvalue(OVP.conc$means %>% filter(pair == "Goal-Belief") %>% pull(Obs),
+                    OVP.conc.c$means %>% filter(pair == "Goal-Objective") %>% pull(Obs),
+                    "less", R =999)
+wilcox.test(OVP.conc$means %>% filter(pair == "Goal-Belief") %>% pull(Obs),
+            OVP.conc.c$means %>% filter(pair == "Goal-Objective") %>% pull(Obs),exact=FALSE,alternative = "less")
+
+
+twoSampleBootpvalue(OVP.rel$means %>% filter(pair == "wants-to-believes-that") %>% pull(Obs),
+                    OVP.rel.c$means %>% filter(pair == "wants-to-intends-to") %>% pull(Obs),
+                    "less", R =999)
+wilcox.test(OVP.rel$means %>% filter(pair == "wants-to-believes-that") %>% pull(Obs),
+            OVP.rel.c$means %>% filter(pair == "wants-to-intends-to") %>% pull(Obs),exact=FALSE,alternative = "less")
+
+```
+
+
+
