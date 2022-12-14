@@ -430,3 +430,91 @@ overlaps.per.item <- function(ov_ratings,conceptList,threshold = 0.1) {
   print(stats)
   invisible(out)
 }
+
+
+
+reportWilcox <- function(obj,alpha = 0.05,inMath = FALSE){
+  W = round(obj$statistic,1)
+  p = obj$p.value
+  if (p <= 0.001) {
+    res = paste0("W=",W,", p<0.001")
+  } else if (p <= alpha) {
+    res = paste0("W=",W,", p=", round(p,4))
+  } else {
+    res = paste0("W=",W,", p=", round(p,4), ", \\red{NOT REJECTED}")
+  }
+  if (inMath){
+      return(res)
+  } else {
+      return(paste0("$",res,"$"))
+  }
+}
+
+reportKendalCor <- function(obj,alpha = 0.05,inMath = FALSE){
+  z = round(obj$statistic,1)
+  p = obj$p.value
+  tau = round(obj$estimate,2)
+  if (p <= 0.001) {
+    res = paste0("\\tau=",tau,", p<0.001")
+  } else if (p <= alpha) {
+    res = paste0("\\tau=",tau,", p=", round(p,4))
+  } else {
+    res = paste0("\\tau=",tau,", p=", round(p,4), ", \\red{NOT REJECTED}")
+  }
+  if (inMath){
+    return(res)
+  } else {
+    return(paste0("$",res,"$"))
+  }
+}
+
+reportNumber <- function(x){
+  return (paste0(as.english(x)," (",round(x,0),")"))
+}
+
+
+
+# Global Parameters ----- 
+thema = theme(text = element_text(size=14),
+              strip.text.x = element_text(size=14),
+              strip.text.y = element_text(size=14),
+              axis.title = element_text(size=15),
+              axis.text = element_text(size=14),
+              title = element_text(size = 16),
+              legend.text = element_text(size=14),
+              panel.background = element_rect(fill = "gray90",
+                                              colour = "gray90",
+                                              size = 0.5, linetype = "solid"),
+              legend.position = "bottom")
+
+qualthema = theme(
+  axis.title = element_text(size=22),
+  axis.text = element_text(size=16),
+  text = element_text(size=16),
+  
+  panel.background = element_rect(fill = "gray90",
+                                  colour = "gray90",
+                                  size = 0.5, linetype = "solid"),
+  legend.position = "bottom")
+
+
+bigthema = theme(
+  title = element_text(size = 23),            
+  axis.title = element_text(size=28),
+  legend.title = element_text(size=28),
+  
+  axis.text = element_text(size=26),
+  legend.text = element_text(size=26),
+  
+  text = element_text(size=28),
+  strip.text.x = element_text(size=22),
+  strip.text.y = element_text(size=22),
+  
+  panel.background = element_rect(fill = "gray90",
+                                  colour = "gray90",
+                                  size = 0.5, linetype = "solid"),
+  legend.position = "bottom")
+
+
+
+
