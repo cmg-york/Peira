@@ -1,0 +1,32 @@
+item,demo_item_name,response,demo_item_label
+Age_1,Age,NA,NA
+Sex_1,Sex,1,Female
+Sex_1,Sex,2,Male
+Sex_1,Sex,3,Other
+Sex_1,Sex,4,Rather not say
+Fl_1,Background,1,"Science, Technology and Engineering"
+Fl_2,Background,2,Business and Economics
+Fl_3,Background,3,Health Sciences
+Fl_4,Background,4,"Social Sciences and Humanities (e.g. Sociology, English, History etc.)."
+Fl_5,Background,5,Fine Arts.
+Fl_6,Background,6,Education.
+Fl_7,Background,7,Other/None.
+englishFirst_1,Native Speaker,1,Yes
+englishFirst_1,Native Speaker,2,No
+englishFirst_1,Native Speaker,3,Partially
+english_1,Reading,1,Fair
+english_1,Reading,2,Good
+english_1,Reading,3,Very Good
+english_1,Reading,4,Excellent
+english_2,Writing,1,Fair
+english_2,Writing,2,Good
+english_2,Writing,3,Very Good
+english_2,Writing,4,Excellent
+english_3,Listening,1,Fair
+english_3,Listening,2,Good
+english_3,Listening,3,Very Good
+english_3,Listening,4,Excellent
+english_4,Speaking,1,Fair
+english_4,Speaking,2,Good
+english_4,Speaking,3,Very Good
+english_4,Speaking,4,Excellent

@@ -1,0 +1,734 @@
+---
+title: "Peira Evaluation of iStar-RL"
+author: "Markdown prepared by Sotirios Liaskos"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_float: 
+      collapsed: false
+      smooth_scroll: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, eval = FALSE)
+setwd("../../Analyzer")
+source("PackageLoad.R")
+source("Analyzer.R")
+setwd("../Generator")
+source("Generator.R")
+source("Library.R")
+setwd("../Projects/iRL")
+```
+
+# Preliminary: Load Libraries and Set Paths
+
+```{r eval=TRUE}
+lan = "iRL"
+lan_long = "iStar-RL"
+configID = "config"
+
+dPath = "Data/config - 25-02-26 12-58-16/"
+mdPath = "Data/config - 25-02-26 12-58-16/"
+paperPath = "Paper/"
+
+confData = getConfigData(mdPath,configID)
+
+# Load data sets from configuration directory
+concepts_df = confData$concepts_df
+lang_df = confData$lang_df
+config = confData$config
+cases_df = confData$cases_df
+items_df = confData$items_df
+
+
+printTEXData = FALSE
+printIMGData = FALSE
+
+```
+
+
+
+
+# Create dataframes
+
+```{r eval=TRUE}
+
+# Observational Data
+ds1 = getObservationalData(lan,dPath,mdPath)
+# Self reported Data
+ds2 = getAttitudinalData(lan,dPath,mdPath)
+# Demographic Data
+dse = getDemographicData(lan,dPath,mdPath)
+
+participants_clean = nrow(unique(ds1$participant))
+participants_unclean = 0
+
+totalInvited = participants_clean + participants_unclean 
+
+if (printTEXData) {
+  sink(file = paste0(paperPath,lan,"-totalInvited.tex"))
+  cat(reportNumber(totalInvited))
+  sink(file = NULL)
+}
+
+if (printTEXData) {
+  sink(file = paste0(paperPath,lan,"-Excluded.tex"))
+  cat(reportNumber(participants_unclean))
+  sink(file = NULL)
+}
+
+```
+
+
+# Instrument Statistics
+
+```{r eval = TRUE}
+#
+#
+# * * I N S T R U M E N T    S T A T I S T I C S  * * -------------
+#
+#
+
+concIDLevels = c(getConceptCodeList_Entities(lan,concepts_df),getConceptCodeList_Relationships(lan,concepts_df))
+concTable = rbind(getConceptTable_Entities(lan,concepts_df),getConceptTable_Relationships(lan,concepts_df))
+concTable$conceptID = factor(concTable$conceptID)
+
+instru.stats = 
+ds1 %>% filter(auth == psy_option,description == "therm") %>% group_by(participant,auth) %>% summarise(occs = n()) %>% 
+  group_by(auth) %>% summarise(n2 =mean(occs))  %>%
+  mutate (auth = factor(auth, levels = concIDLevels)) %>% arrange(auth) %>% left_join(concTable, by = c("auth" = "conceptID")) %>% select(conceptDescr, n2) %>% rename (Concept = conceptDescr, " # Elements" = n2)
+
+
+kable(instru.stats)
+
+if (printTEXData) {
+  sink(file = paste0(paperPath,lan,"-instrumentStats.tex"))
+  print(xtable(instru.stats.1,
+               caption = "Number of elements by authoritative designation.",
+               label = "tab:auths.case",
+               digits= 0))
+  sink(file = NULL)
+}
+
+```
+
+# Demographics
+
+```{r eval = TRUE}
+#
+#
+# * * D E M O G R A P H I C S  * * -------------
+#
+#
+
+sexage = rbind(
+  dse %>% filter(demo_item_name %in% c("Age","Sex")) %>% mutate(Condition = lan_long)
+  ) %>% pivot_wider(id_cols = c(participant,Condition), names_from = demo_item_name,values_from = demo_item_label) %>% 
+  group_by(Condition, Sex) %>% summarise(`Average Age` = mean(as.numeric(Age)), Count = n())
+
+kable(sexage %>% ungroup() %>% select(-Condition))
+if (printTEXData) {
+  sink(file = paste0(paperPath,lan,"-demoTable.tex"))
+  print(xtable(sexage %>% ungroup() %>% select(-Condition)
+         , caption = "Participants Counts and Ages by Sex."
+         , label = "tab:dems"
+         , digits = 0
+  ))
+  sink(file = NULL)
+}
+```
+
+
+# Accuracy {.tabset}
+
+## Preliminary - General Stats
+
+```{r eval=TRUE}
+#
+# * A C C U R A C Y ---------------
+#
+
+observations = ds1 %>% select(participant, item, item_full, language, type, psy_option, response) %>% rename("option" = psy_option,"class" = type)
+authoritative = ds1 %>% select(item, language, auth) %>% distinct()
+
+acc.pc.out = accuracy.per.concept(observations, authoritative)
+acc.data = acc.pc.out$acc.data
+acc.pc = acc.pc.out$acc.per.concept
+acc.overall = acc.pc.out$acc.per.language %>% mutate(language = getLangName(lan))
+
+kable(acc.overall,"simple")
+kable(acc.pc %>% mutate(language = getLangName(lan)) %>% select(-language),"simple")
+
+if (printTEXData) {
+  sink(file = paste0(paperPath,lan,"-acc-prec.tex"))
+  cat(paste0(round(acc.overall %>% filter(language == getLangName(lan)) %>% pull(precision),1),"\\%"))
+  sink(file = NULL)
+
+  sink(file = paste0(paperPath,lan,"-acc-recl.tex"))
+  cat(paste0(round(acc.overall %>% filter(language == getLangName(lan)) %>% pull(recall),1),"\\%"))
+  sink(file = NULL)
+}
+```
+
+
+## Per-concept analysis
+
+```{r eval=TRUE}
+
+
+
+set.seed(123)
+
+accuracy.ents = accuracyBoot(acc.data,
+              conceptStruct = list(iRL = getConceptCodeList_Entities(lan,concepts_df))) %>% mutate (Language = getLangName(lan))
+
+accuracy.rels = accuracyBoot(acc.data,
+              conceptStruct = list(iRL = getConceptCodeList_Relationships(lan,concepts_df))) %>% mutate (Language = getLangName(lan))
+
+
+kable(accuracy.ents %>% select(Concept, Recall, Precision),"simple")
+kable(accuracy.rels %>% select(Concept, Recall, Precision),"simple")
+
+areYouSure = FALSE
+if (printTEXData & areYouSure) {
+  sink(file = paste0(paperPath,lan,"-acc-bootTable-ent.tex"))
+  print(xtable(accuracy.ents %>% select(Language, Concept, Recall, Precision),
+       caption = "Accuracy measures for entities (\\%). In brackets the 2.5th and 97.5th percentiles of 
+       the bootstrapping distribution created by re-sampling with replacement the authoritative and 
+       response sets 1000 times and recalculating the measures.",
+       label = "tab:boot.acc.entity"))
+  sink(file = NULL)
+  
+  sink(file = paste0(paperPath,lan,"-acc-bootTable-rel.tex"))
+  print(xtable(accuracy.rels %>% select(Language, Concept, Recall,Precision),
+       caption = "Accuracy measures for relationships (\\%). In brackets the 2.5th and 97.5th percentiles of 
+       the bootstrapping distribution created by re-sampling with replacement the authoritative and 
+       response sets 1000 times and recalculating the measures.",
+       label = "tab:boot.acc.relationship"
+  ))
+  sink(file = NULL)
+}
+
+(euler.Ent = grid.arrange(print_Euler(acc.pc,lan,"actor"),
+                          print_Euler(acc.pc,lan,"goal"),
+                          print_Euler(acc.pc,lan,"qual"),
+                          print_Euler(acc.pc,lan,"qual-pre"),
+                          print_Euler(acc.pc,lan,"eff-sat"),
+                          print_Euler(acc.pc,lan,"eff-nonsat"),
+                          print_Euler(acc.pc,lan,"eff-pre"),
+                          print_Euler(acc.pc,lan,"eff-ind"),ncol = 4))
+
+(euler.Rel = grid.arrange(
+               print_Euler(acc.pc,lan,"and"),
+               print_Euler(acc.pc,lan,"or"),
+               print_Euler(acc.pc,lan,"contr"),
+               print_Euler(acc.pc,lan,"pre"),
+               print_Euler(acc.pc,lan,"wants"),
+               print_Euler(acc.pc,lan,"contr-pos"),
+               print_Euler(acc.pc,lan,"contr-neg"),
+               print_Euler(acc.pc,lan,"eff-link-det"),
+               print_Euler(acc.pc,lan,"eff-link-nondet"),
+               ncol = 3))
+
+if (printIMGData){
+  ggsave(plot = euler.Ent , paste0(paperPath,"img/",lan,"-fig-acc.ent.pdf"), width = 350/2, height = 180/2, units = "mm")
+  ggsave(plot = euler.Rel , paste0(paperPath,"img/",lan,"-fig-acc.rel.pdf"), width = 350/2, height = 180/2, units = "mm")
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Deficit {.tabset}
+
+## Descriptives per item
+```{R eval=TRUE}
+#
+#  Descriptives per item ---------------
+#
+
+def.outcome = deficit(observations)
+def.item = def.outcome$def.item
+def.tab = def.outcome$def.tab
+def.parti = def.outcome$def.parti %>% mutate(language = factor(language,levels = c(lan)))
+
+# Goal Models: Entities
+def.graph.conc = ggplot(data = def.item %>% filter(class == "entity"),
+  aes(x = Deficit)) + geom_histogram(bins = 9,boundary = 0) + bigthema +
+geom_density(alpha=.2, fill="#66FF66") + xlim(c(0,1)) + ggtitle(paste0(lan_long,": Entities"))
+#
+
+# Goal Models: Relationships
+def.graph.rel = ggplot(data = def.item %>% filter(class == "relationship"),
+                       aes(x = Deficit)) + geom_histogram(bins = 9,boundary = 0) + bigthema +
+  geom_density(alpha=.2, fill="#66FF66") + xlim(c(0,1)) + ggtitle(paste0(lan_long,": Relationships"))
+#
+
+if (printIMGData){
+  ggsave(plot = arrangeGrob(def.graph.conc,def.graph.rel), 
+         paste0(paperPath,"img/", lan,"-fig-def.hist.pdf"), width = 350, height = 180, units = "mm")
+}
+
+x = arrangeGrob(def.graph.conc,def.graph.rel)
+
+def.hists = grid.arrange(def.graph.conc + thema,
+                         def.graph.rel + thema)
+
+
+def.tab.prez = def.tab %>% mutate(
+  Language = getLangName(lan),
+  Class = ifelse(class == "entity","Entities", "Relationships")) %>%
+     ungroup() %>% select(Class,max,q95,q90,q75) %>% arrange(Class)
+
+kable(def.tab.prez, digits = 2)
+
+areYouSure = TRUE
+if (printTEXData & areYouSure){
+  sink(file =  paste0(paperPath,lan,"-def-deftable.tex"), append = FALSE)
+  print(xtable(def.tab.prez,caption = "Deficit measures: maximum observed, and 95th, 90th and 75th quantile.",label = "tab:def"),
+      include.rownames = F)
+  sink(file = NULL)
+}
+```
+
+## Items with the most deficit
+
+```{r eval = TRUE}
+kable(head(def.item %>% ungroup() %>% filter(class == "entity",language == "iRL") %>% select(item_full,Deficit) %>% rename("Item" = "item_full") %>% arrange(-Deficit)))
+
+head(def.item %>% ungroup() %>% filter(class == "relationship",language == "iRL") %>% select(item_full,Deficit) %>% rename("Item" = "item_full")%>% arrange(-Deficit))
+```
+
+
+## Self-reported
+```{r eval = TRUE}
+likert_labels <- c(
+  "-7" = "Strongly Disagree",
+  "-6" = "Strongly Disagree",
+  "-5" = "Disagree",
+  "-4" = "Disagree",
+  "-3" = "Somewhat Disagree",
+  "-2" = "Somewhat Disagree",
+  "-1" = "Neutral",
+  "0"  = "Neutral",
+  "1"  = "Neutral",
+  "2"  = "Somewhat Agree",
+  "3"  = "Somewhat Agree",
+  "4"  = "Agree",
+  "5"  = "Agree",
+  "6"  = "Strongly Agree",
+  "7"  = "Strongly Agree"
+)
+
+likert_labels_tibble <- tibble(response = unique(likert_labels))
+
+self.conc.compl = ds2 %>% filter(psy_item == "entityCompleteness_1") %>% 
+  inner_join(def.parti %>% filter(class == "entity")) %>% select(participant,value,Deficit)
+self.rels.compl = ds2 %>% filter(psy_item == "relationshipCompleteness_1") %>% 
+  inner_join(def.parti %>% filter(class == "relationship")) %>% select(participant,value,Deficit)
+
+self.compl.all = rbind(self.conc.compl %>%  mutate(class = "Entity"),
+    self.rels.compl %>% mutate(class = "Relationship")
+) %>% mutate(response = dplyr::recode(as.character(value), !!!likert_labels)) 
+
+
+
+zeroLabels = rbind(tibble(class = "Entity",response = unique(likert_labels), count = 0),
+      tibble(class = "Relationship",response = unique(likert_labels), count = 0)
+      )
+
+self.compl.table.count = self.compl.all %>%
+  group_by(class, response) %>% 
+  summarize(count = n()) %>% 
+  bind_rows(zeroLabels) %>% 
+  mutate(response = factor(response, levels = unique(likert_labels))) %>% 
+  group_by(class, response) %>% 
+  summarize(count = sum(count)) %>% 
+  pivot_wider(names_from = response,values_from = count)
+
+self.compl.totals = self.compl.all %>%
+  group_by(class, response) %>% 
+  summarize(count = n()) %>% 
+  bind_rows(zeroLabels) %>% summarise(s = sum(count)) %>% 
+  pull(s) %>%
+  setNames(unique(self.compl.all$class))
+
+self.compl.table.frequency = self.compl.table.count %>% 
+  pivot_longer(-class, names_to = "response") %>%
+  mutate(value = if_else(class == "Entity", value/self.compl.totals["Entity"], 
+                         value/self.compl.totals["Relationship"])) %>%
+  mutate(response = factor(response, levels = unique(likert_labels))) %>% 
+  pivot_wider(names_from = response, values_from = value) %>%
+  ungroup() %>%
+  #mutate(across(-class, ~ . * 100)) %>%  # Convert to percentage
+  mutate(across(-class, ~ paste0(round(. * 100, 1), "%")))
+  
+
+# Generate kable for the table
+self.compl.table.frequency %>%
+    kable(digits = 1, caption = "Self-reported decific by concept class","simple") 
+
+
+areYouSure = TRUE
+if (printTEXData & areYouSure){
+  sink(file =  paste0(paperPath,lan,"-def-self-reported.tex"), append = FALSE)
+  self.compl.table.frequency %>%
+    kable(format = "latex", digits = 1, caption = "Self-reported decific by concept class",label = "tab:def-self") 
+  sink(file = NULL)
+}
+
+
+
+likert_def_df = tibble(Entities =  self.compl.all %>% select(class,response) %>% filter(class == "Entity") %>% pull(response),
+Relationships = self.compl.all %>% select(class,response) %>% filter(class == "Relationship") %>% pull(response))
+
+likert_def_df$Entities = factor(likert_def_df$Entities,levels = unique(likert_labels))
+likert_def_df$Relationships = factor(likert_def_df$Relationships,levels = unique(likert_labels))
+
+likert_def_df = likert_def_df %>% mutate(across(everything(), factor, levels = unique(likert_labels)))
+
+(likert_def_fig = plot(likert(data.frame(likert_def_df),nlevels = 7)))
+
+if (printIMGData){
+  ggsave(plot = likert_def_fig, 
+         paste0(paperPath,"img/", lan,"-fig-def.likert.pdf"), width = 200, height = 90, units = "mm")
+}
+
+```
+
+## Observed vs. self-reported
+
+```{r eval = TRUE}
+
+
+(def.self.corr = cor.test(self.compl.all[,"value"]$value,
+         self.compl.all[,"Deficit"]$Deficit,
+         method = "kendall",exact = FALSE,alternative = "less"))
+
+if (printTEXData) {
+  sink(file = paste0(paperPath,lan,"-def.self.corr.tex"))
+  cat(reportKendalCor(def.self.corr,alpha = expAlphaLevel/(selfExps)))
+  sink(file = NULL)
+}
+
+def.self.corr.plot = ggplot(self.compl.all,aes(x=value, y = Deficit)) + 
+  geom_point() + geom_smooth(method='lm', formula= y~x) +
+  xlab("Self-Reported Completeness") + ylab("Observed Deficit") + bigthema
+  
+if (printIMGData) {
+   ggsave(plot = def.self.corr.plot, paste0(paperPath,"img",lan,"-fig-self.def.pdf"), 
+          width = 350, height = 180, units = "mm")
+}
+``` 
+
+
+# Excess {.tabset}
+
+## Descriptives
+
+```{r eval=TRUE}
+exc.outcome = excess(observations)
+exc.data = exc.outcome$exc.data
+exc.descr = exc.outcome$exc.descr
+exc.pp = exc.outcome$exc.per.participant
+
+exc.table = exc.descr %>% ungroup() %>% #mutate(Language = getLangName(lan)) %>%
+        select(-language) %>% rename_with(str_to_title) # %>% relocate(Language,.before = Class),
+
+kable(exc.table,
+      digits = 2,"simple")
+      
+      
+areYouSure = TRUE
+if (printTEXData & areYouSure){
+  sink(file = paste0(paperPath,lan,"-exc.table.tex"))
+  print(xtable(exc.table,caption = "Excess measures: maximum observed, and 95th, and 90th quantile.",label = "tab:exc"),
+      include.rownames = F)
+  sink(file = NULL)
+}
+
+```
+
+## Self-reported excess
+```{r eval=TRUE}
+exc.ent.countarray = 1:length(getConceptList_Entities(lan))
+exc.rel.countarray = 1:length(getConceptList_Relationships(lan))
+
+exc.sr.ent = ds2 %>% filter(psy_item %in% c(paste0("entityRelevance_",exc.ent.countarray))) %>% select(concept,value) %>% mutate(class = "Entities") %>% mutate(concept = factor(concept, levels = rev(getConceptList_Entities(lan))))
+
+
+exc.sr.rel = ds2 %>% filter(psy_item %in% c(paste0("relationshipRelevance_",exc.rel.countarray))) %>% select(concept,value) %>% mutate(class = "Relationships") %>% mutate(concept = factor(concept, levels = rev(getConceptList_Relationships(lan))))
+
+exc.sr.ent.plot = ggplot(exc.sr.ent,aes(y=concept,x = value)) + geom_boxplot(fill = "brown3",color = "black") + xlab("Excess (0-10)") + xlim(0,10) + ylab("Concept")
+
+exc.sr.rel.plot = ggplot(exc.sr.rel,aes(y=concept,x = value)) + geom_boxplot(fill = "darkcyan",color = "black") + xlab("Excess (0-10)") + xlim(0,10) + ylab("Concept")
+
+
+if (printIMGData) {
+  ggsave(plot = arrangeGrob(exc.sr.ent.plot,
+               exc.sr.rel.plot,
+               nrow=1),
+            paste0(paperPath,"img/",lan,"-fig-exc-self.pdf"), 
+            width = 350, height = 180, units = "mm")
+}
+
+```
+
+## Relationship to self-reported 
+
+```{r eval=TRUE}
+
+
+excessCorr = ds2 %>% filter(psy_item %in% c(paste0("entityRelevance_",exc.ent.countarray),paste0("relationshipRelevance_",exc.rel.countarray))) %>% 
+  inner_join(exc.pp, by = c("participant" = "participant", "conceptID" = "option", "language" = "language")) %>% rename(excess = exc_V_pp)
+
+
+exc.self.corr.plot = ggplot(excessCorr,aes(x=value, y = excess)) + geom_point() + geom_smooth(method='lm', formula= y~x) + xlab("Self Reported Excess") + ylab("Self Reported Excess") + bigthema
+
+if (printIMGData) {
+   ggsave(plot = exc.self.corr.plot, paste0(paperPath,"img/",lan,"-fig-exc-corr.pdf"), 
+          width = 350, height = 180, units = "mm")
+}
+
+(excessCorr.corr = cor.test(
+  excessCorr %>% pull(value),
+  excessCorr %>% pull(excess),
+  method = "kendall",exact = FALSE,alternative = "less"))
+```
+
+
+
+
+# Redundancy and Overlaps {.tabset}
+
+## Observational - Fine
+
+```{r eval=TRUE, fig.width = 7}
+
+OVI.ent = overlaps.per.item(observations = observations %>% filter(class == "entity"),
+                  l = lan,
+                  getConceptCodeList_Entities(lan,concepts_df),
+                  overlapFunc = ov2,
+                  threshold = 0.1)
+
+OVI.rel = overlaps.per.item(observations = observations %>% filter(class == "relationship"),
+                  l = lan,
+                  getConceptCodeList_Relationships(lan,concepts_df),
+                  overlapFunc = ov2,
+                  threshold = 0.1)
+
+
+# Tiles -------------
+ovi.tile.obs <- grid.arrange(
+  blackOvTile(OVI.ent$tile,statistic = mean, "iStar-RL, Entities",huelim = c(0,0.5)),
+  blackOvTile(OVI.rel$tile,statistic = mean, "iStar-RL, Relationships",huelim = c(0,0.5))) + 
+  theme(plot.margin = unit(c(1,1,1,1),"cm"))
+
+ovi.tile.obs.paper = arrangeGrob(
+  blackOvTile(OVI.ent$tile,statistic = mean, "iStar-RL, Entities",huelim = c(0,1)),
+  blackOvTile(OVI.rel$tile,statistic = mean, "iStar-RL, Relationships",huelim = c(0,1))
+)
+
+if (printIMGData){
+  ggsave(plot = ovi.tile.obs.paper,
+         paste0(paperPath,"img/",lan,"fig-tiles-obs.pdf"), device = "pdf",
+         width = 350, height = 200, units = "mm")
+}
+
+
+# Alternative Visual
+ovi.tile.obs.paper.blue = arrangeGrob(
+  blueOvTile(OVI.ent$tile,huelim = c(0,1), title = "iStar-RL, Entities"),
+  blueOvTile(OVI.rel$tile,huelim = c(0,1), title = "iStar-RL, Relationships")
+)
+
+
+if (printIMGData){
+  ggsave(plot = ovi.tile.obs.paper.blue,
+         paste0(paperPath,"img/",lan,"fig-tiles-obs-blue.pdf"), device = "pdf",
+         width = 350, height = 200, units = "mm")
+}
+```
+
+
+## Redundancy
+```{R eval=TRUE}
+red.tab = rbind(
+  redundancy(OVI.ent$stats) %>% mutate(Class = "Entities"),
+  redundancy(OVI.rel$stats) %>% mutate(Class = "Relationships")
+) %>% relocate(Class,.before = Concept)
+
+kable(red.tab, digits = 2, "simple")
+
+areYouSure = TRUE
+if (printTEXData & areYouSure) {
+  sink(file = paste0(paperPath,lan,"-red-list.tex"))
+  print(xtable(red.tab,
+       caption = "Redundancy indices.",
+       label = "tab:red"))
+  sink(file = NULL)
+}
+```
+
+## Observational - Coarse
+
+```{r,eval=TRUE, fig.width = 7}
+
+collapse_vec_ent = c(
+  actor = "Actor",
+  goal = "Goal",
+  task = "Task",
+  `eff-sat` = "Effect",
+  `eff-nonsat` = "Effect",
+  `eff-ind` = "Effect",
+  `eff-pre` = "Effect",
+  qual = "Quality",
+  `qual-pre` = "Effect",
+  None = "None"
+)
+
+
+collapse_vec_rel = c(
+  wants = "wants to",
+  and = "is AND-refined to",
+  or = "is OR-refined to",
+  `eff-link-nondet` = "affects",
+  `eff-link-det` = "affects",
+  `contr-pos` = "affects",
+  `contr-neg` = "affects",
+  contr = "affects",
+  pre = "precedes",
+  None = "None"
+)
+
+observations_collapsed_ent = 
+  observations %>% filter(class == "entity") %>%
+  mutate(option_col = collapse_vec_ent[option]) %>% group_by(participant,item,item_full,language,class,option_col) %>% summarise(response = max(response)) %>% ungroup() %>% rename("option" = option_col)
+
+OVI.ent.collapsed = overlaps.per.item(observations = observations_collapsed_ent,
+                  l = lan,
+                  unique(collapse_vec_ent[!collapse_vec_ent == 'None']),
+                  overlapFunc = ov2,
+                  threshold = 0.1)
+
+
+observations_collapsed_rel = 
+  observations %>% filter(class == "relationship") %>%
+  mutate(option_col = collapse_vec_rel[option]) %>% group_by(participant,item,item_full,language,class,option_col) %>% summarise(response = max(response)) %>% ungroup() %>% rename("option" = option_col)
+
+
+OVI.rel.collapsed = overlaps.per.item(observations = observations_collapsed_rel,
+                  l = lan,
+                  unique(collapse_vec_rel[!collapse_vec_rel == 'None']),
+                  overlapFunc = ov2,
+                  threshold = 0.1)
+
+
+# Tiles -------------
+ovi.tile.obs.collapsed <- grid.arrange(
+  blackOvTile(OVI.ent.collapsed$tile,statistic = mean, "iStar-RL, Entities",huelim = c(0,0.5)),
+  blackOvTile(OVI.rel.collapsed$tile,statistic = mean, "iStar-RL, Relationships",huelim = c(0,0.5))) + 
+  theme(plot.margin = unit(c(1,1,1,1),"cm"))
+
+ovi.tile.obs.paper.collapsed = arrangeGrob(
+  blackOvTile(OVI.ent$tile,statistic = mean, "iStar-RL, Entities",huelim = c(0,1)),
+  blackOvTile(OVI.rel$tile,statistic = mean, "iStar-RL, Relationships",huelim = c(0,1))
+)
+
+if (printIMGData){
+  ggsave(plot = ovi.tile.obs.paper.collapsed,
+         paste0(paperPath,"img/",lan,"fig-tiles-obs-collapsed.pdf"), device = "pdf",
+         width = 350, height = 200, units = "mm")
+}
+
+
+# Alternative Visual
+ovi.tile.obs.paper.blue = arrangeGrob(
+  blueOvTile(OVI.ent.collapsed$tile,huelim = c(0,1), title = "iStar-RL, Entities"),
+  blueOvTile(OVI.rel.collapsed$tile,huelim = c(0,1), title = "iStar-RL, Relationships")
+)
+
+
+if (printIMGData){
+  ggsave(plot = ovi.tile.obs.paper.blue,
+         paste0(paperPath,"img/",lan,"fig-tiles-obs-blue-collapsed.pdf"), device = "pdf",
+         width = 350, height = 200, units = "mm")
+}
+```
+
+
+
+## Self-reported
+
+```{R eval=TRUE}
+self.tile.ents = ds2 %>% 
+  filter(str_starts(psy_item,"conceptOverlap_ent")) %>%
+  select(concept,value) %>% 
+  rename("Pair" = concept) %>% 
+  group_by(Pair) %>% summarise(Overlap = mean(value)/10) %>% separate(Pair , c("Concept1","Concept2")," -\\[vs\\]- ") %>%
+  mutate(Concept1 = str_extract(Concept1, "^\\S+")) %>%
+  mutate(Concept2 = str_extract(Concept2, "^\\S+"))
+
+self.tile.ent = rbind(self.tile.ents, self.tile.ents %>% rename("Concept1" = Concept2, "Concept2" = Concept1)) %>% rename("Obs" = Overlap) %>% 
+  mutate(concept1 = factor(Concept1),
+         concept2 = factor(Concept2)) 
+
+
+self.tile.rels = ds2 %>% 
+  filter(str_starts(psy_item,"conceptOverlap_rel")) %>%
+  select(concept,value) %>% 
+  rename("Pair" = concept) %>% 
+  group_by(Pair) %>% summarise(Overlap = mean(value)/10) %>% separate(Pair , c("Concept1","Concept2")," -\\[vs\\]- ")  %>%
+  mutate(Concept1 = if_else(str_starts(Concept1, "affects"), "affects", Concept1)) %>%
+  mutate(Concept2 = if_else(str_starts(Concept2, "affects"), "affects", Concept2)) %>%
+  mutate(Concept1 = if_else(str_starts(Concept1, "contributes to"), "contributes to", Concept1)) %>%
+  mutate(Concept2 = if_else(str_starts(Concept2, "contributes to"), "contributes to", Concept2))
+  
+
+self.tile.rel = rbind(self.tile.rels, self.tile.rels %>% rename("Concept1" = Concept2, "Concept2" = Concept1)) %>% rename("Obs" = Overlap) %>% 
+  mutate(concept1 = factor(Concept1),
+         concept2 = factor(Concept2)) 
+
+
+blueOvTile(self.tile.ent, statistic = Obs, title = paste0(lan_long,",  Entities (self-reported)"))
+blueOvTile(self.tile.rel, statistic = Obs, title = paste0(lan_long,",  Relationships (self-reported)"))
+
+blackOvTile(self.tile.ent, statistic = Obs, title = paste0(lan_long,",  Entities (self-reported)"))
+blackOvTile(self.tile.rel, statistic = Obs, title = paste0(lan_long,",  Relationships (self-reported)"))
+
+ovi.tile.self.paper.blue = arrangeGrob(
+        blueOvTile(self.tile.ent, statistic = Obs, title = paste0(lan_long,",  Entities (self-reported)")),
+        blueOvTile(self.tile.rel, statistic = Obs, title = paste0(lan_long,",  Relationships (self-reported)"))
+)
+
+ovi.tile.self.paper = arrangeGrob(
+        blueOvTile(self.tile.ent, statistic = Obs, title = paste0(lan_long,",  Entities (self-reported)")),
+        blueOvTile(self.tile.rel, statistic = Obs, title = paste0(lan_long,",  Relationships (self-reported)"))
+)
+
+
+
+
+if (printIMGData){
+  ggsave(plot = ovi.tile.self.paper.blue,
+         paste0(paperPath,"img/",lan,"fig-tiles-self-blue.pdf"), device = "pdf",
+         width = 350, height = 350, units = "mm")
+  ggsave(plot = ovi.tile.self.paper,
+         paste0(paperPath,"img/",lan,"fig-tiles-self.pdf"), device = "pdf",
+         width = 350, height = 350, units = "mm")
+}
+
+
+```
