@@ -1,0 +1,302 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.9 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="26.0.9" pages="9">
+  <diagram name="wants" id="uLjsAbidI28lfDXSsr7X">
+    <mxGraphModel dx="3878" dy="3579" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ErJo9wEACRqUiTQ-pwK0-1" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=24;spacingLeft=19;horizontal=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-3164" y="-3098" width="439" height="134.84" as="geometry" />
+        </mxCell>
+        <mxCell id="ErJo9wEACRqUiTQ-pwK0-2" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#000099;fontSize=15;fillColor=#FAFAFA;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="-2971.27" y="-3091.22" width="121.27" height="121.27" as="geometry" />
+        </mxCell>
+        <mxCell id="ErJo9wEACRqUiTQ-pwK0-3" value="Medical Supplies Replenished" style="text;whiteSpace=wrap;html=1;spacing=0;labelBackgroundColor=default;" vertex="1" parent="1">
+          <mxGeometry x="-2940" y="-3050" width="70" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ErJo9wEACRqUiTQ-pwK0-4" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-3020" y="-3091.22" width="77.35" height="81.22" as="geometry" />
+        </mxCell>
+        <mxCell id="ErJo9wEACRqUiTQ-pwK0-5" value="Inventory Manager" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#000000;fontSize=12;rounded=1;strokeWidth=2;fillColor=#d5e8d4;arcSize=50;spacingTop=-5;" vertex="1" parent="ErJo9wEACRqUiTQ-pwK0-4">
+          <mxGeometry width="72.36924674605392" height="72.36924674605392" as="geometry" />
+        </mxCell>
+        <mxCell id="ErJo9wEACRqUiTQ-pwK0-6" value="" style="curved=1;endArrow=none;html=1;rounded=0;fontSize=15;edgeStyle=orthogonalEdgeStyle;exitX=0.039;exitY=0.679;exitDx=0;exitDy=0;entryX=0.971;entryY=0.66;entryDx=0;entryDy=0;endFill=0;strokeWidth=2;entryPerimeter=0;exitPerimeter=0;" edge="1" parent="ErJo9wEACRqUiTQ-pwK0-4" source="ErJo9wEACRqUiTQ-pwK0-5" target="ErJo9wEACRqUiTQ-pwK0-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="223.1605663929382" y="73.1674966297961" as="sourcePoint" />
+            <mxPoint x="267.06164414083753" y="31.502947474177525" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="38.46464646464651" y="81.22" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="AND-refined-to" id="1gs2RZHI4NI9sFblUrpP">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ajVYuO0WvZpalGAtjgUs-1" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=24;spacingLeft=19;horizontal=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-3164" y="-3098" width="439" height="134.84" as="geometry" />
+        </mxCell>
+        <mxCell id="ajVYuO0WvZpalGAtjgUs-2" value="Place Order" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-2920" y="-3078.84" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ajVYuO0WvZpalGAtjgUs-3" value="Medical Supplies Arranged" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-3140" y="-3048.84" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="ajVYuO0WvZpalGAtjgUs-4" value="" style="endArrow=ERone;html=1;strokeWidth=2;endFill=0;endSize=24;" edge="1" parent="1" source="ajVYuO0WvZpalGAtjgUs-2" target="ajVYuO0WvZpalGAtjgUs-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-3179" y="-2898" as="sourcePoint" />
+            <mxPoint x="-3121" y="-2941" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ajVYuO0WvZpalGAtjgUs-5" value="Pay for Order" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-2890" y="-3010" width="90" height="21.16" as="geometry" />
+        </mxCell>
+        <mxCell id="ajVYuO0WvZpalGAtjgUs-6" value="" style="endArrow=ERone;html=1;strokeWidth=2;endFill=0;endSize=24;" edge="1" parent="1" source="ajVYuO0WvZpalGAtjgUs-5" target="ajVYuO0WvZpalGAtjgUs-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-3017" y="-3027" as="sourcePoint" />
+            <mxPoint x="-2911" y="-3020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="OR-refined-to" id="fU80AN_KQSoCDuBj-7cF">
+    <mxGraphModel dx="4909" dy="4180" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="BkUC19ak8wjUay8kF5_F-1" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=24;spacingLeft=19;horizontal=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-3164" y="-3098" width="439" height="134.84" as="geometry" />
+        </mxCell>
+        <mxCell id="BkUC19ak8wjUay8kF5_F-2" value="Order On-Line" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-2920" y="-3078.84" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BkUC19ak8wjUay8kF5_F-3" value="&amp;nbsp;Medical Supplies Arranged" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-3130" y="-3040" width="110" height="48.84" as="geometry" />
+        </mxCell>
+        <mxCell id="BkUC19ak8wjUay8kF5_F-4" value="Buy in Person" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-2860" y="-3010" width="90" height="21.16" as="geometry" />
+        </mxCell>
+        <mxCell id="BkUC19ak8wjUay8kF5_F-5" value="" style="endArrow=open;html=1;strokeWidth=2;curved=1;fontStyle=0;endFill=0;endSize=16;" edge="1" parent="1" source="BkUC19ak8wjUay8kF5_F-4" target="BkUC19ak8wjUay8kF5_F-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-2956" y="-2880" as="sourcePoint" />
+            <mxPoint x="-2860" y="-2868" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BkUC19ak8wjUay8kF5_F-6" value="" style="endArrow=open;html=1;strokeWidth=2;curved=1;fontStyle=0;endFill=0;endSize=16;" edge="1" parent="1" source="BkUC19ak8wjUay8kF5_F-2" target="BkUC19ak8wjUay8kF5_F-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-3047" y="-3138" as="sourcePoint" />
+            <mxPoint x="-2918" y="-3154" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="affects - non-deterministic" id="853b5pwW_sg7_2bmhBY9">
+    <mxGraphModel dx="4219" dy="3778" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0FTAw9jXshLjtbLICrXR-0" />
+        <mxCell id="0FTAw9jXshLjtbLICrXR-1" parent="0FTAw9jXshLjtbLICrXR-0" />
+        <mxCell id="PgXMtwsRZiTtv9gq55L4-0" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=24;spacingLeft=19;horizontal=1;verticalAlign=top;" vertex="1" parent="0FTAw9jXshLjtbLICrXR-1">
+          <mxGeometry x="-3180" y="-3130" width="439" height="134.84" as="geometry" />
+        </mxCell>
+        <mxCell id="PgXMtwsRZiTtv9gq55L4-1" value="Order Supplies Online" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="0FTAw9jXshLjtbLICrXR-1">
+          <mxGeometry x="-3180" y="-3064.84" width="129" height="44.84" as="geometry" />
+        </mxCell>
+        <mxCell id="PgXMtwsRZiTtv9gq55L4-2" value="Order Submission Failed" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="0FTAw9jXshLjtbLICrXR-1">
+          <mxGeometry x="-2920" y="-3040" width="161" height="31.32" as="geometry" />
+        </mxCell>
+        <mxCell id="PgXMtwsRZiTtv9gq55L4-3" value="" style="endArrow=classic;html=1;strokeWidth=2;curved=1;fontStyle=0;fontSize=11;" edge="1" parent="0FTAw9jXshLjtbLICrXR-1" source="PgXMtwsRZiTtv9gq55L4-1" target="PgXMtwsRZiTtv9gq55L4-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-2996" y="-3172.26" as="sourcePoint" />
+            <mxPoint x="-2984" y="-3073.42" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-3010" y="-3080" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PgXMtwsRZiTtv9gq55L4-4" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;eff&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=22;labelBackgroundColor=default;" vertex="1" connectable="0" parent="PgXMtwsRZiTtv9gq55L4-3">
+          <mxGeometry x="-0.1963" y="-16" relative="1" as="geometry">
+            <mxPoint x="-4" y="-17" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PgXMtwsRZiTtv9gq55L4-5" value="" style="endArrow=none;html=1;strokeWidth=2;curved=1;fontStyle=0;endFill=0;endSize=9;" edge="1" parent="0FTAw9jXshLjtbLICrXR-1" source="PgXMtwsRZiTtv9gq55L4-2" target="PgXMtwsRZiTtv9gq55L4-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-2988" y="-2860.23" as="sourcePoint" />
+            <mxPoint x="-2948.44" y="-2902.6700000000005" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PgXMtwsRZiTtv9gq55L4-6" value="+" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=40;fontStyle=0;labelBorderColor=none;labelBackgroundColor=none;fillColor=#000000;" vertex="1" parent="0FTAw9jXshLjtbLICrXR-1">
+          <mxGeometry x="-2970.5000000000005" y="-3064.8400000000006" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="PgXMtwsRZiTtv9gq55L4-7" value="" style="endArrow=none;html=1;strokeWidth=2;curved=1;fontStyle=0;endFill=0;endSize=9;exitX=0.209;exitY=0.932;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="0FTAw9jXshLjtbLICrXR-1" source="PgXMtwsRZiTtv9gq55L4-8" target="PgXMtwsRZiTtv9gq55L4-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-2894" y="-3053.42" as="sourcePoint" />
+            <mxPoint x="-2922.8408693933125" y="-2954.9304483085957" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PgXMtwsRZiTtv9gq55L4-8" value="Order Successfully Received" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="0FTAw9jXshLjtbLICrXR-1">
+          <mxGeometry x="-2910" y="-3100" width="168" height="21.16" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="affects - deterministic" id="gPjSjBjLp0X36DV7MDxt">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="GJUEpycLAf5XoFifx69I-1" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=24;spacingLeft=19;horizontal=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-3180" y="-3130" width="439" height="134.84" as="geometry" />
+        </mxCell>
+        <mxCell id="GJUEpycLAf5XoFifx69I-2" value="Supplies Successfully Used" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-3160" y="-3076.76" width="130" height="44.84" as="geometry" />
+        </mxCell>
+        <mxCell id="GJUEpycLAf5XoFifx69I-3" value="Stock is Below Reorder Point" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-2900" y="-3070.0000000000005" width="120" height="31.32" as="geometry" />
+        </mxCell>
+        <mxCell id="GJUEpycLAf5XoFifx69I-4" value="" style="endArrow=classic;html=1;strokeWidth=2;curved=1;fontStyle=0;fontSize=11;" edge="1" parent="1" source="GJUEpycLAf5XoFifx69I-2" target="GJUEpycLAf5XoFifx69I-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-2996" y="-3172.26" as="sourcePoint" />
+            <mxPoint x="-2974.7361631056433" y="-3057.1219132278857" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-2960" y="-3070" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GJUEpycLAf5XoFifx69I-5" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;eff&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=22;labelBackgroundColor=default;" vertex="1" connectable="0" parent="GJUEpycLAf5XoFifx69I-4">
+          <mxGeometry x="-0.1963" y="-16" relative="1" as="geometry">
+            <mxPoint x="21" y="-14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="contriubutes to" id="_IwBzGo1zpOrclaUuZxC">
+    <mxGraphModel dx="4595" dy="3997" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fzJbdStBtYJ1d9xx049b-1" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=24;spacingLeft=19;horizontal=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-3220" y="-3040" width="439" height="134.84" as="geometry" />
+        </mxCell>
+        <mxCell id="fzJbdStBtYJ1d9xx049b-2" value="Order Supplies Online" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-3180" y="-2970.74" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fzJbdStBtYJ1d9xx049b-3" value="Product Quality" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-2910" y="-2990.74" width="90" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="fzJbdStBtYJ1d9xx049b-4" value="" style="endArrow=classic;html=1;strokeWidth=2;curved=1;fontStyle=0;fontSize=11;" edge="1" parent="1" source="fzJbdStBtYJ1d9xx049b-2" target="fzJbdStBtYJ1d9xx049b-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-3083" y="-2971" as="sourcePoint" />
+            <mxPoint x="-2940" y="-2983" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-2990" y="-2980" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <object label="&lt;font face=&quot;Times New Roman&quot; style=&quot;font-size: 22px;&quot;&gt;&lt;i style=&quot;font-size: 22px;&quot;&gt;f&lt;/i&gt;&lt;/font&gt;" concept="effectGroup" id="fzJbdStBtYJ1d9xx049b-5">
+          <mxCell style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;strokeWidth=2;fontSize=22;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=middle;spacingBottom=5;fontStyle=1" vertex="1" parent="1">
+            <mxGeometry x="-3000" y="-2960" width="27" height="27" as="geometry" />
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="positively contributes to" id="7igaNwxePzBWWfQ2X5mk">
+    <mxGraphModel dx="4083" dy="3698" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Wqc_D30NpNfv4O7GMZlB-1" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=24;spacingLeft=19;horizontal=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-3220" y="-3040" width="439" height="134.84" as="geometry" />
+        </mxCell>
+        <mxCell id="Wqc_D30NpNfv4O7GMZlB-2" value="Supplies Successfully Used" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-3180" y="-2970.74" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Wqc_D30NpNfv4O7GMZlB-3" value="Stock is Below Reorder Point" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-2910" y="-2990.74" width="90" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="Wqc_D30NpNfv4O7GMZlB-4" value="" style="endArrow=classic;html=1;strokeWidth=2;curved=1;fontStyle=0;fontSize=11;" edge="1" parent="1" source="Wqc_D30NpNfv4O7GMZlB-2" target="Wqc_D30NpNfv4O7GMZlB-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-3083" y="-2971" as="sourcePoint" />
+            <mxPoint x="-2940" y="-2983" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-3010" y="-2990" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Wqc_D30NpNfv4O7GMZlB-5" value="&lt;font style=&quot;font-size: 18px; color: rgb(51, 51, 255);&quot;&gt;+0.5&amp;nbsp;&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=22;labelBackgroundColor=default;" vertex="1" connectable="0" parent="Wqc_D30NpNfv4O7GMZlB-4">
+          <mxGeometry x="-0.1963" y="-16" relative="1" as="geometry">
+            <mxPoint x="7" y="-6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="negatively contributes to" id="pWZbz7fqfksja4d_JFsl">
+    <mxGraphModel dx="4197" dy="3764" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="GErSFvVa_wOKPbHh1ep8-1" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=24;spacingLeft=19;horizontal=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-3220" y="-3040" width="439" height="134.84" as="geometry" />
+        </mxCell>
+        <mxCell id="GErSFvVa_wOKPbHh1ep8-2" value="Order Supplies Online" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-3181" y="-2970.74" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="GErSFvVa_wOKPbHh1ep8-3" value="Expedite Delivery" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-2910" y="-2981.1099999999997" width="90" height="50.74" as="geometry" />
+        </mxCell>
+        <mxCell id="GErSFvVa_wOKPbHh1ep8-4" value="" style="endArrow=classic;html=1;strokeWidth=2;curved=1;fontStyle=0;fontSize=11;" edge="1" parent="1" source="GErSFvVa_wOKPbHh1ep8-2" target="GErSFvVa_wOKPbHh1ep8-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-3083" y="-2971" as="sourcePoint" />
+            <mxPoint x="-2940" y="-2983" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-2990" y="-2990" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GErSFvVa_wOKPbHh1ep8-5" value="&lt;span style=&quot;color: rgb(255, 51, 51); font-size: 18px;&quot;&gt;&amp;nbsp;-0.5&amp;nbsp;&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=22;labelBackgroundColor=default;" vertex="1" connectable="0" parent="GErSFvVa_wOKPbHh1ep8-4">
+          <mxGeometry x="-0.1963" y="-16" relative="1" as="geometry">
+            <mxPoint x="8" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="precedes" id="A9WyD1IvuqL_xJ3IFHjl">
+    <mxGraphModel dx="4219" dy="3778" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="j-IZTra8kb5jUXgVTsQg-1" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=24;spacingLeft=19;horizontal=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-3220" y="-3040" width="439" height="134.84" as="geometry" />
+        </mxCell>
+        <mxCell id="j-IZTra8kb5jUXgVTsQg-2" value="Medical Supplies Replenished" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-3190.5" y="-2990.74" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="j-IZTra8kb5jUXgVTsQg-3" value="Report Compiled" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="-2920.5" y="-2990.74" width="110" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="j-IZTra8kb5jUXgVTsQg-4" value="" style="endArrow=classic;html=1;strokeWidth=2;curved=1;fontStyle=0;fontSize=11;" edge="1" parent="1" source="j-IZTra8kb5jUXgVTsQg-2" target="j-IZTra8kb5jUXgVTsQg-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-3103.5" y="-2971" as="sourcePoint" />
+            <mxPoint x="-2960.5" y="-2983" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-2990.5" y="-2980" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j-IZTra8kb5jUXgVTsQg-5" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;pre&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="j-IZTra8kb5jUXgVTsQg-4">
+          <mxGeometry x="-0.0946" y="-6" relative="1" as="geometry">
+            <mxPoint x="7" y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,198 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.4 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="26.0.4" pages="14">
+  <diagram name="iRL-therm-ent-1-task" id="lrQCM1Hvvk60PSm_WDTy">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="8EVRoLbqYbVEU3qF_5PC-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="8EVRoLbqYbVEU3qF_5PC-2" value="Controller" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3000.15" y="-2975.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="jRgEcZpF6pAmbIoYRc1D" name="iRL-therm-ent-2-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="WMIV12gM6Ebx0xt84zZE-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="WMIV12gM6Ebx0xt84zZE-2" value="Temperature Controlled" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3000.15" y="-2975.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="zBmDgi2XzJmhAONFBeY-" name="iRL-therm-ent-3-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="GpvrV5KlX3a_F-G1qQch-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="GpvrV5KlX3a_F-G1qQch-2" value="Send On Signal" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3000.15" y="-2975.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="1IxjrtlEPSZ1EHy36e9s" name="iRL-therm-ent-4-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="KGd0Drym3RknLUCmkNBx-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="KGd0Drym3RknLUCmkNBx-2" value="Send Off Signal" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3000.15" y="-2975.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="mF4jjamFUtdUcgxOceSQ" name="iRL-therm-ent-5-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="KOCaqRmrXCcC5hIWI0WM-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="KOCaqRmrXCcC5hIWI0WM-2" value="On Signal Succeeded" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3000.15" y="-2975.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="vYKbGq_c37cxqWt-kweQ" name="iRL-therm-ent-6-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="d6XeWCeDnbLE4l-QtRz0-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3220" y="-3000" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="d6XeWCeDnbLE4l-QtRz0-2" value="On Signal Failed" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3074.15" y="-2973.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Au_eIEvgqQtElC9Wct7o" name="iRL-therm-ent-7-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="HO4hthhfVkvMxC0yOV6J-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="HO4hthhfVkvMxC0yOV6J-2" value="Off Signal Succeeded" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3000.15" y="-2975.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="4KhcXFip8CfWlh6ND8Yw" name="iRL-therm-ent-8-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="vMrETtKvcEsVFJe0bYrc-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="vMrETtKvcEsVFJe0bYrc-2" value="Off Signal Failed" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3000.15" y="-2975.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="FeQZBwoRJbgXJpnwxUOL" name="iRL-therm-ent-9-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2bgucH3Qxth6n7qr5xwd-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="2bgucH3Qxth6n7qr5xwd-2" value="Heater is On" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3000.15" y="-2975.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="P1F7y5oBeZOF15YZMAfe" name="iRL-therm-ent-10-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="e8Ps3HBaaf71knkx5Y6m-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="e8Ps3HBaaf71knkx5Y6m-2" value="Heater Was Previously On" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3030" y="-2975.5" width="198" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Xo7n9-qTVo7QPiPUUxzN" name="iRL-therm-ent-11-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="OqogtvDsWHDaOnSe1Z6u-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="OqogtvDsWHDaOnSe1Z6u-2" value="Minimize Cost" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3000.15" y="-2975.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="enEovX3N7CVmyAMt918q" name="iRL-therm-ent-12-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="OEJNkMzXo-wIDmV71_d6-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="OEJNkMzXo-wIDmV71_d6-2" value="Maximize Comfort" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3000.15" y="-2975.5" width="168.15" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="iRL-therm-ent-13-task" id="P5TjuPJcCvfCDk246iFM">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="KZR2G05XeIorMjJvlH5d-0" />
+        <mxCell id="KZR2G05XeIorMjJvlH5d-1" parent="KZR2G05XeIorMjJvlH5d-0" />
+        <mxCell id="o8tBmJBdtH6JAbWjQKxb-0" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="KZR2G05XeIorMjJvlH5d-1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="o8tBmJBdtH6JAbWjQKxb-1" value="Maintain Ideal Temperature" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="KZR2G05XeIorMjJvlH5d-1">
+          <mxGeometry x="-3030" y="-2975.5" width="198" height="61" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="KmZoFBOVh3dv930wX-Ls" name="iRL-therm-ent-14-task">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ElFVG5iBlOMsyvJuMD40-1" value="&lt;span style=&quot;font-size: 32px;&quot;&gt;Task&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" vertex="1" parent="1">
+          <mxGeometry x="-3146" y="-3002" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="ElFVG5iBlOMsyvJuMD40-2" value="Maintain Ideal Temperature (previous level)" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fontSize=25;strokeWidth=3;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="-3040" y="-2990" width="208" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

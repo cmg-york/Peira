@@ -42,7 +42,7 @@ for (langID in c("iRL")){
                     sample(1:5, size = 3, replace = FALSE)
                     )
   key_att_ = print_overlap(langID, key_att_)
-  for (caseID in c("therm")){
+  for (caseID in cases_df$caseID){
     key_obs_ = print_observational_check(langID,caseID,key = key_obs_)
   }
   key_att_ = print_self_reporting(langID, key_att_)

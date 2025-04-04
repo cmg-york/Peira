@@ -1,0 +1,198 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.4 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="26.0.4" pages="14">
+  <diagram name="iRL-therm-ent-1-eff-sat" id="lrQCM1Hvvk60PSm_WDTy">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="cFmfFEjLX8nP5NsxkfsD-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="cFmfFEjLX8nP5NsxkfsD-2" value="Controller" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3006" y="-3138" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="jRgEcZpF6pAmbIoYRc1D" name="iRL-therm-ent-2-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="459HtaoS7KTZ1lUQ1ao--1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="459HtaoS7KTZ1lUQ1ao--2" value="Temperature Controlled" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3006" y="-3138" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="zBmDgi2XzJmhAONFBeY-" name="iRL-therm-ent-3-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7SEGXEeU1GbTMlFg1oMn-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="7SEGXEeU1GbTMlFg1oMn-2" value="Send On Signal" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3006" y="-3138" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="1IxjrtlEPSZ1EHy36e9s" name="iRL-therm-ent-4-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="K2EHDKtfKGi9RK8-6PZv-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="K2EHDKtfKGi9RK8-6PZv-2" value="Send Off Signal" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3006" y="-3138" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="mF4jjamFUtdUcgxOceSQ" name="iRL-therm-ent-5-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="-SokROqPKtR4f6KurAjn-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="-SokROqPKtR4f6KurAjn-2" value="On Signal Succeeded" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3006" y="-3138" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="vYKbGq_c37cxqWt-kweQ" name="iRL-therm-ent-6-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="OqPBl2NV-8u4d3XOQgy6-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="OqPBl2NV-8u4d3XOQgy6-2" value="On Signal Failed" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3006" y="-3138" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Au_eIEvgqQtElC9Wct7o" name="iRL-therm-ent-7-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="FaVxJLLO6pAQ0jb_pXB1-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="FaVxJLLO6pAQ0jb_pXB1-2" value="Off Signal Succeeded" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3006" y="-3138" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="4KhcXFip8CfWlh6ND8Yw" name="iRL-therm-ent-8-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="mEHfGtMcO02yjOFNuSGM-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="mEHfGtMcO02yjOFNuSGM-2" value="Off Signal Failed" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3006" y="-3138" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="FeQZBwoRJbgXJpnwxUOL" name="iRL-therm-ent-9-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Eo5WNTFooRbF-QkhxvZN-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3170" y="-3150" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="Eo5WNTFooRbF-QkhxvZN-2" value="Heater is On" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-2996" y="-3128" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="P1F7y5oBeZOF15YZMAfe" name="iRL-therm-ent-10-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sNxFyJPVUaKTq3Mr17-d-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="sNxFyJPVUaKTq3Mr17-d-2" value="Heater Was Previously On" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3040" y="-3138" width="174" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Xo7n9-qTVo7QPiPUUxzN" name="iRL-therm-ent-11-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T1CdVuXwzjPt5eVmwvIC-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="T1CdVuXwzjPt5eVmwvIC-2" value="Minimize Cost" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3006" y="-3138" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="enEovX3N7CVmyAMt918q" name="iRL-therm-ent-12-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="3xsh85W_VCW3DhH9Rifz-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="3xsh85W_VCW3DhH9Rifz-2" value="Maximize Comfort" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3006" y="-3138" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="iRL-therm-ent-13-eff-sat" id="P5TjuPJcCvfCDk246iFM">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="KZR2G05XeIorMjJvlH5d-0" />
+        <mxCell id="KZR2G05XeIorMjJvlH5d-1" parent="KZR2G05XeIorMjJvlH5d-0" />
+        <mxCell id="CPtlkMGdHyn56HLVe2MG-0" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="KZR2G05XeIorMjJvlH5d-1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="CPtlkMGdHyn56HLVe2MG-1" value="Maintain Ideal Temperature" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="KZR2G05XeIorMjJvlH5d-1" vertex="1">
+          <mxGeometry x="-3033" y="-3138" width="174" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="KmZoFBOVh3dv930wX-Ls" name="iRL-therm-ent-14-eff-sat">
+    <mxGraphModel dx="4834" dy="4136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="W99pWl5tqgTasuzWg2Vh-1" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;Effect&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;background-color: initial; font-size: 20px;&quot;&gt;(satisfying)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontSize=12;spacingLeft=19;" parent="1" vertex="1">
+          <mxGeometry x="-3180" y="-3160" width="333" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="W99pWl5tqgTasuzWg2Vh-2" value="Maintain Ideal Temperature (previous level)" style="ellipse;whiteSpace=wrap;html=1;rounded=1;fontSize=23;strokeWidth=3;fillColor=#E1D5E7;arcSize=50;strokeColor=#3333FF;align=center;verticalAlign=middle;spacingTop=4;fontFamily=Helvetica;fontColor=default;" parent="1" vertex="1">
+          <mxGeometry x="-3050" y="-3150" width="190" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
